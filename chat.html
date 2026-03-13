@@ -201,6 +201,18 @@ hr.div{border:none;border-top:1px solid var(--border)}
 .next-name{font-size:13px;font-weight:700;color:var(--orange2);margin-top:2px;letter-spacing:.8px;font-family:var(--mono)}
 @supports(padding-bottom:env(safe-area-inset-bottom)){.page-body{padding-bottom:calc(50px + env(safe-area-inset-bottom))}.cbar{padding-bottom:calc(8px + env(safe-area-inset-bottom))}.mdl{padding-bottom:calc(36px + env(safe-area-inset-bottom))}}
 @media(min-width:481px){.mdl{border-radius:var(--r);margin:auto}.mbg{align-items:center;padding:20px}}
+
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:14px}
+.box{width:100%;max-width:340px;background:#181818;border:2px solid var(--border);border-radius:2px;overflow:hidden;box-shadow:0 16px 64px rgba(0,0,0,.95)}
+.lhdr{background:var(--red);padding:16px;border-bottom:4px solid #7a000a;display:flex;flex-direction:column;align-items:center;gap:10px;box-shadow:0 3px 0 #3d0005}
+.llogo{max-height:54px;width:auto;object-fit:contain;filter:brightness(0) invert(1)}
+.lname{font-size:10px;color:rgba(255,255,255,.55);letter-spacing:2px;text-transform:uppercase;font-family:var(--mono)}
+.lbody{padding:20px 16px;display:flex;flex-direction:column;gap:13px}
+.llbl{font-size:8px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.12em;display:block;margin-bottom:3px;font-family:var(--mono)}
+.lerr{background:#190202;border:1px solid #530e0e;border-left:3px solid var(--red2);color:#f87171;border-radius:1px;padding:8px 11px;font-size:9px;font-weight:700;display:none;text-transform:uppercase;letter-spacing:.07em;font-family:var(--mono)}
+.lbtn{width:100%;padding:12px;background:var(--red2);border:none;border-bottom:3px solid #7a000a;border-radius:var(--r);font-size:11px;font-weight:700;color:#fff;cursor:pointer;font-family:'Rubik',sans-serif;letter-spacing:1.5px;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .1s;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.lbtn:disabled{opacity:.45}
+.lftr{padding:8px 16px;font-size:8px;color:#383838;border-top:1px solid var(--border);letter-spacing:1px;text-transform:uppercase;font-family:var(--mono);text-align:center}
 </style>
 </head>
 <body>
@@ -209,36 +221,27 @@ hr.div{border:none;border-top:1px solid var(--border)}
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 <script src="js/app.js"></script>
 <div class="hdr">
-  <div class="hdr-top">
-    <div class="hdr-brand">
-      <img src="https://estamosenlaweb.com.ar/upload/products/3409/logo.jpg" class="hdr-logo" alt="El Triángulo" onerror="this.classList.add('err')">
-      <div class="hdr-logo-fallback" style="width:30px;height:27px;flex-shrink:0"><svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%"><polygon points="50,3 97,87 3,87" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.9)" stroke-width="7"/><polygon points="50,21 78,74 22,74" fill="rgba(255,255,255,0.1)"/></svg></div>
-      <div class="hdr-texts">
-        <div class="hdr-name">Triángulo</div>
-        <div class="hdr-sub" id="hdrSub">Chat del equipo</div>
-      </div>
-    </div>
-  </div>
+  <div class="hdr-top"><div class="hdr-brand"><img src="https://estamosenlaweb.com.ar/upload/products/3409/logo.jpg" class="hdr-logo" alt="" onerror="this.style.display='none'"><svg width="30" height="27" viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><polygon points="50,3 97,87 3,87" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.9)" stroke-width="7"/><polygon points="50,21 78,74 22,74" fill="rgba(255,255,255,0.1)"/></svg><div class="hdr-texts"><div class="hdr-name">Triángulo</div><div class="hdr-sub" id="hdrSub">Chat del equipo</div></div></div></div>
   <a href="menu.html" class="hdr-back">&#8592; Menú</a>
 </div>
 <style>
-.chat-wrap{display:flex;flex-direction:column;flex:1;overflow:hidden;min-height:0}
+.chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 58px)}
 .ch-tabs{display:flex;background:var(--plate);border-bottom:2px solid var(--border);overflow-x:auto;scrollbar-width:none;flex-shrink:0}
 .ch-tabs::-webkit-scrollbar{display:none}
-.ch-tab{flex-shrink:0;padding:8px 13px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;font-family:var(--mono);white-space:nowrap;background:none;border-right:1px solid var(--border)}
+.ch-tab{flex-shrink:0;padding:8px 13px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;font-family:var(--mono);white-space:nowrap;background:none;border:none;border-bottom:2px solid transparent;color:var(--text3)}
 .ch-tab.on{color:var(--red2);border-bottom-color:var(--red2);background:rgba(193,18,31,.06)}
 .qbtns{display:flex;gap:4px;flex-wrap:wrap;padding:6px 10px;background:var(--plate);border-bottom:1px solid var(--border);flex-shrink:0}
-.qbtn{padding:3px 8px;background:var(--card2);border:1px solid var(--border2);border-radius:1px;font-size:8px;font-weight:700;color:var(--text2);cursor:pointer;font-family:'Rubik',sans-serif;text-transform:uppercase;letter-spacing:.05em}
+.qbtn{padding:3px 8px;background:var(--card2);border:1px solid var(--border2);border-radius:1px;font-size:8px;font-weight:700;color:var(--text2);cursor:pointer;font-family:"Rubik",sans-serif;text-transform:uppercase}
 .qbtn:active{background:var(--border2)}
 </style>
-<div class="chat-wrap" style="height:calc(100vh - 60px)">
+<div class="chat-wrap">
   <div class="ch-tabs" id="chTabs"></div>
   <div class="qbtns">
-    <button class="qbtn" onclick="qSend('Falta producto')">Falta producto</button>
-    <button class="qbtn" onclick="qSend('Pedido armado')">Pedido armado</button>
-    <button class="qbtn" onclick="qSend('Ya cargamos')">Ya cargamos</button>
-    <button class="qbtn" onclick="qSend('Voy al depósito')">Voy al depósito</button>
-    <button class="qbtn" onclick="qSend('Saliendo con camión')">Saliendo</button>
+    <button class="qbtn" data-msg="Falta producto" onclick="qSend(this.dataset.msg)">Falta producto</button>
+    <button class="qbtn" data-msg="Pedido armado" onclick="qSend(this.dataset.msg)">Pedido armado</button>
+    <button class="qbtn" data-msg="Ya cargamos" onclick="qSend(this.dataset.msg)">Ya cargamos</button>
+    <button class="qbtn" data-msg="Voy al depósito" onclick="qSend(this.dataset.msg)">Voy al depósito</button>
+    <button class="qbtn" data-msg="Saliendo con camión" onclick="qSend(this.dataset.msg)">Saliendo</button>
   </div>
   <div class="chat-area" id="chatArea"></div>
   <div class="cbar">
@@ -248,50 +251,55 @@ hr.div{border:none;border-top:1px solid var(--border)}
   </div>
 </div>
 <script>
+
 initFirebase(); initDemoData();
-var user=requireAuth(); if(!user)throw new Error('no auth');
-var CHANNELS=[
-  {k:'general',    lbl:'📌 General'},
-  {k:'armadores',  lbl:'🧱 Armadores'},
-  {k:'reparto',    lbl:'🚚 Reparto'},
+var user = requireAuth(); if (!user) throw new Error('no auth');
+var CHANNELS = [
+  {k:'general',   lbl:'📌 General'},
+  {k:'armadores', lbl:'🧱 Armadores'},
+  {k:'reparto',   lbl:'🚚 Reparto'},
 ];
-var curCh='general';
-function buildTabs(){
-  var t=document.getElementById('chTabs');
-  t.innerHTML=CHANNELS.map(function(c){
-    return '<button class="ch-tab'+(c.k===curCh?' on':'')+'" onclick="setCh(''+c.k+'')">'+c.lbl+'</button>';
+var curCh = 'general';
+function buildTabs() {
+  var t = document.getElementById('chTabs');
+  var html = '';
+  CHANNELS.forEach(function(c) {
+    html += '<button class="ch-tab' + (c.k === curCh ? ' on' : '') + '" data-ch="' + c.k + '" onclick="setCh(this.dataset.ch)">' + c.lbl + '</button>';
+  });
+  t.innerHTML = html;
+}
+function setCh(ch) { curCh = ch; buildTabs(); renderChat(); }
+function getMsgs() { return getData('chat_' + curCh) || []; }
+function renderChat() {
+  var msgs = getMsgs();
+  var area = document.getElementById('chatArea');
+  if (!msgs.length) { area.innerHTML = '<div class="empty"><div class="empty-ico">💬</div>Sin mensajes en este canal</div>'; return; }
+  area.innerHTML = msgs.map(function(m) {
+    var own = m.user === user.name;
+    return '<div class="msg' + (own ? ' own' : '') + (m.emergency ? ' em' : '') + '">' +
+      '<div class="bbl">' + (m.emergency ? '🚨 ' : '') + escHtml(m.text) + '</div>' +
+      '<div class="mmeta">' + (own ? '' : (escHtml(m.user) + ' · ')) + escHtml(m.time || '') + '</div></div>';
   }).join('');
+  area.scrollTop = area.scrollHeight;
 }
-function setCh(ch){curCh=ch;buildTabs();renderChat();}
-function getMsgs(){return getData('chat_'+curCh)||[];}
-function renderChat(all){
-  var msgs=getMsgs();
-  var area=document.getElementById('chatArea');
-  area.innerHTML=!msgs.length?'<div class="empty"><div class="empty-ico">💬</div>Sin mensajes en este canal</div>':
-    msgs.map(function(m){
-      var own=m.user===user.name;
-      return '<div class="msg'+(own?' own':'')+(m.emergency?' em':'')+'">'+
-        '<div class="bbl">'+(m.emergency?'🚨 ':'')+escHtml(m.text)+'</div>'+
-        '<div class="mmeta">'+(own?'':(escHtml(m.user)+' · '))+escHtml(m.time||'')+'</div></div>';
-    }).join('');
-  area.scrollTop=area.scrollHeight;
+function sendMsg() {
+  var inp = document.getElementById('msgInp'), txt = inp.value.trim(); if (!txt) return;
+  var m = {id:'m'+Date.now(), channel:curCh, user:user.name, text:txt, time:fmtTime(), ts:Date.now()};
+  var ch = getData('chat_' + curCh) || []; ch.push(m); setData('chat_' + curCh, ch);
+  fsAdd(COL.messages, m); inp.value = ''; renderChat();
 }
-function sendMsg(){
-  var inp=document.getElementById('msgInp'),txt=inp.value.trim();if(!txt)return;
-  var m={id:'m'+Date.now(),channel:curCh,user:user.name,text:txt,time:fmtTime(),ts:Date.now()};
-  var ch=getData('chat_'+curCh)||[];ch.push(m);setData('chat_'+curCh,ch);
-  fsAdd(COL.messages,m);inp.value='';renderChat();
-}
-function qSend(txt){document.getElementById('msgInp').value=txt;sendMsg();}
-function sendEmerg(){
-  var txt=prompt('Mensaje de emergencia:');if(!txt)return;
-  var m={id:'m'+Date.now(),channel:'general',user:user.name,text:txt,time:fmtTime(),emergency:true,ts:Date.now()};
-  var ch=getData('chat_general')||[];ch.push(m);setData('chat_general',ch);
-  fsAdd(COL.messages,m);if(navigator.vibrate)navigator.vibrate([100,50,100,50,100]);
-  curCh='general';buildTabs();renderChat();showToast('🚨 Emergencia enviada','wrn');
+function qSend(txt) { document.getElementById('msgInp').value = txt; sendMsg(); }
+function sendEmerg() {
+  var txt = prompt('Mensaje de emergencia:'); if (!txt) return;
+  var m = {id:'m'+Date.now(), channel:'general', user:user.name, text:txt, time:fmtTime(), emergency:true, ts:Date.now()};
+  var ch = getData('chat_general') || []; ch.push(m); setData('chat_general', ch);
+  fsAdd(COL.messages, m);
+  if (navigator.vibrate) navigator.vibrate([100,50,100,50,100]);
+  curCh = 'general'; buildTabs(); renderChat(); showToast('🚨 Emergencia enviada', 'wrn');
 }
 buildTabs();
-initLiveData({onMessages:renderChat});renderChat();
+initLiveData({onMessages: function() { renderChat(); }});
+renderChat();
+
 </script>
-</body>
-</html>
+</body></html>

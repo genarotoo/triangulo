@@ -201,6 +201,18 @@ hr.div{border:none;border-top:1px solid var(--border)}
 .next-name{font-size:13px;font-weight:700;color:var(--orange2);margin-top:2px;letter-spacing:.8px;font-family:var(--mono)}
 @supports(padding-bottom:env(safe-area-inset-bottom)){.page-body{padding-bottom:calc(50px + env(safe-area-inset-bottom))}.cbar{padding-bottom:calc(8px + env(safe-area-inset-bottom))}.mdl{padding-bottom:calc(36px + env(safe-area-inset-bottom))}}
 @media(min-width:481px){.mdl{border-radius:var(--r);margin:auto}.mbg{align-items:center;padding:20px}}
+
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:14px}
+.box{width:100%;max-width:340px;background:#181818;border:2px solid var(--border);border-radius:2px;overflow:hidden;box-shadow:0 16px 64px rgba(0,0,0,.95)}
+.lhdr{background:var(--red);padding:16px;border-bottom:4px solid #7a000a;display:flex;flex-direction:column;align-items:center;gap:10px;box-shadow:0 3px 0 #3d0005}
+.llogo{max-height:54px;width:auto;object-fit:contain;filter:brightness(0) invert(1)}
+.lname{font-size:10px;color:rgba(255,255,255,.55);letter-spacing:2px;text-transform:uppercase;font-family:var(--mono)}
+.lbody{padding:20px 16px;display:flex;flex-direction:column;gap:13px}
+.llbl{font-size:8px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.12em;display:block;margin-bottom:3px;font-family:var(--mono)}
+.lerr{background:#190202;border:1px solid #530e0e;border-left:3px solid var(--red2);color:#f87171;border-radius:1px;padding:8px 11px;font-size:9px;font-weight:700;display:none;text-transform:uppercase;letter-spacing:.07em;font-family:var(--mono)}
+.lbtn{width:100%;padding:12px;background:var(--red2);border:none;border-bottom:3px solid #7a000a;border-radius:var(--r);font-size:11px;font-weight:700;color:#fff;cursor:pointer;font-family:'Rubik',sans-serif;letter-spacing:1.5px;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .1s;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.lbtn:disabled{opacity:.45}
+.lftr{padding:8px 16px;font-size:8px;color:#383838;border-top:1px solid var(--border);letter-spacing:1px;text-transform:uppercase;font-family:var(--mono);text-align:center}
 </style>
 </head>
 <body>
@@ -209,218 +221,280 @@ hr.div{border:none;border-top:1px solid var(--border)}
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 <script src="js/app.js"></script>
 <div class="hdr">
-  <div class="hdr-top">
-    <div class="hdr-brand">
-      <img src="https://estamosenlaweb.com.ar/upload/products/3409/logo.jpg" class="hdr-logo" alt="El Triángulo" onerror="this.classList.add('err')">
-      <div class="hdr-logo-fallback" style="width:30px;height:27px;flex-shrink:0"><svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%"><polygon points="50,3 97,87 3,87" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.9)" stroke-width="7"/><polygon points="50,21 78,74 22,74" fill="rgba(255,255,255,0.1)"/></svg></div>
-      <div class="hdr-texts">
-        <div class="hdr-name">Triángulo</div>
-        <div class="hdr-sub" id="hdrSub">Administración</div>
-      </div>
-    </div>
-  </div>
+  <div class="hdr-top"><div class="hdr-brand"><img src="https://estamosenlaweb.com.ar/upload/products/3409/logo.jpg" class="hdr-logo" alt="" onerror="this.style.display='none'"><svg width="30" height="27" viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><polygon points="50,3 97,87 3,87" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.9)" stroke-width="7"/><polygon points="50,21 78,74 22,74" fill="rgba(255,255,255,0.1)"/></svg><div class="hdr-texts"><div class="hdr-name">Triángulo</div><div class="hdr-sub" id="hdrSub">Administración</div></div></div></div>
   <a href="menu.html" class="hdr-back">&#8592; Menú</a>
 </div>
+
 <div class="page-body">
   <div class="filters">
-    <button class="ftab on" onclick="setTab('users',this)">👥 Usuarios</button>
-    <button class="ftab" onclick="setTab('schools',this)">🏫 Escuelas</button>
-    <button class="ftab" onclick="setTab('products',this)">📦 Productos</button>
-    <button class="ftab" onclick="setTab('templates',this)">📋 Plantillas</button>
-    <button class="ftab" onclick="setTab('activity',this)">📜 Actividad</button>
+    <button class="ftab on" data-t="users"     onclick="setTab(this)">👥 Usuarios</button>
+    <button class="ftab"    data-t="schools"   onclick="setTab(this)">🏫 Escuelas</button>
+    <button class="ftab"    data-t="products"  onclick="setTab(this)">📦 Productos</button>
+    <button class="ftab"    data-t="templates" onclick="setTab(this)">📋 Plantillas</button>
+    <button class="ftab"    data-t="activity"  onclick="setTab(this)">📜 Actividad</button>
   </div>
-  <!-- USERS TAB -->
-  <div id="tab-users">
+  <div id="tab-users"     style="display:flex;flex-direction:column;gap:7px">
     <button class="btn btn-red btn-sm" onclick="newUser()" style="width:auto;align-self:flex-start">+ Nuevo usuario</button>
     <div id="usersList"></div>
   </div>
-  <!-- SCHOOLS TAB -->
-  <div id="tab-schools" style="display:none">
+  <div id="tab-schools"   style="display:none;flex-direction:column;gap:7px">
     <button class="btn btn-red btn-sm" onclick="newSchool()" style="width:auto;align-self:flex-start">+ Nueva escuela</button>
     <div id="schoolsList"></div>
   </div>
-  <!-- PRODUCTS TAB -->
-  <div id="tab-products" style="display:none">
-    <div style="font-size:9px;color:var(--text3);font-family:var(--mono);margin-bottom:7px">Lista fija de productos disponibles. Se usa para armar pedidos.</div>
+  <div id="tab-products"  style="display:none;flex-direction:column;gap:7px">
+    <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">Lista fija de frutas y verduras disponibles.</div>
     <button class="btn btn-red btn-sm" onclick="newProd()" style="width:auto;align-self:flex-start">+ Nuevo producto</button>
     <div id="prodsList"></div>
   </div>
-  <!-- TEMPLATES TAB -->
-  <div id="tab-templates" style="display:none">
-    <div style="font-size:9px;color:var(--text3);font-family:var(--mono);margin-bottom:7px">Cantidades habituales por escuela. Se cargan automáticamente al crear un pedido.</div>
+  <div id="tab-templates" style="display:none;flex-direction:column;gap:7px">
+    <div style="font-size:9px;color:var(--text3);font-family:var(--mono)">Cantidades habituales cargadas automáticamente en cada pedido.</div>
     <div id="tmplList"></div>
   </div>
-  <!-- ACTIVITY TAB -->
-  <div id="tab-activity" style="display:none">
+  <div id="tab-activity"  style="display:none;flex-direction:column;gap:7px">
     <div class="card" id="actCard"></div>
   </div>
 </div>
+<!-- USER MODAL -->
 <div class="mbg" id="mUser" onclick="if(event.target===this)closeModal('mUser')">
   <div class="mdl">
     <div class="mhdl"></div>
-    <div class="mtitle">Usuario</div>
-    
-<input type="hidden" id="eId">
-<div style="display:flex;flex-direction:column;gap:10px">
-  <div class="igroup"><label class="ilbl">Nombre</label><input class="inp" id="uNm" placeholder="Nombre de usuario"></div>
-  <div class="igroup"><label class="ilbl">Contraseña</label><input class="inp" id="uPw" type="password" placeholder="Contraseña"></div>
-  <div class="igroup"><label class="ilbl">Rol</label>
-    <select class="inp" id="uRl">
-      <option value="armador">Armador</option>
-      <option value="repartidor">Repartidor</option>
-      <option value="admin">Administrador</option>
-    </select>
+    <div class="mtitle" id="mUserTitle">Usuario</div>
+    <input type="hidden" id="eId">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="igroup"><label class="ilbl">Nombre</label><input class="inp" id="uNm" placeholder="Nombre de usuario"></div>
+      <div class="igroup"><label class="ilbl">Contraseña</label><input class="inp" id="uPw" type="password" placeholder="Contraseña"></div>
+      <div class="igroup"><label class="ilbl">Rol</label>
+        <select class="inp" id="uRl">
+          <option value="armador">Armador</option>
+          <option value="repartidor">Repartidor</option>
+          <option value="admin">Administrador</option>
+        </select>
+      </div>
+    </div>
+    <div class="mact">
+      <button class="btn btn-red" onclick="saveUser()">Guardar</button>
+      <button class="btn btn-dark" onclick="closeModal('mUser')">Cancelar</button>
+    </div>
   </div>
 </div>
-    <div class="mact"><button class="btn btn-red" onclick="saveUser()">Guardar</button><button class="btn btn-dark" onclick="closeModal('mUser')">Cancelar</button></div>
-  </div>
-</div>
+<!-- PRODUCT MODAL -->
 <div class="mbg" id="mProd" onclick="if(event.target===this)closeModal('mProd')">
   <div class="mdl">
     <div class="mhdl"></div>
-    <div class="mtitle">Producto</div>
-    
-<input type="hidden" id="ePId">
-<div style="display:flex;flex-direction:column;gap:10px">
-  <div class="igroup"><label class="ilbl">Nombre del producto</label><input class="inp" id="pNm" placeholder="Ej: Papa"></div>
-  <div class="igroup"><label class="ilbl">Unidad</label>
-    <select class="inp" id="pUn">
-      <option value="kg">kg</option><option value="un">unidad</option>
-      <option value="atado">atado</option><option value="cajón">cajón</option><option value="bolsa">bolsa</option>
-    </select>
+    <div class="mtitle" id="mProdTitle">Producto</div>
+    <input type="hidden" id="ePId">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="igroup"><label class="ilbl">Nombre</label><input class="inp" id="pNm" placeholder="Ej: Papa"></div>
+      <div class="igroup"><label class="ilbl">Unidad</label>
+        <select class="inp" id="pUn">
+          <option value="kg">kg</option>
+          <option value="un">unidad</option>
+          <option value="atado">atado</option>
+          <option value="cajón">cajón</option>
+          <option value="bolsa">bolsa</option>
+        </select>
+      </div>
+    </div>
+    <div class="mact">
+      <button class="btn btn-red" onclick="saveProd()">Guardar</button>
+      <button class="btn btn-dark" onclick="closeModal('mProd')">Cancelar</button>
+    </div>
   </div>
 </div>
-    <div class="mact"><button class="btn btn-red" onclick="saveProd()">Guardar</button><button class="btn btn-dark" onclick="closeModal('mProd')">Cancelar</button></div>
-  </div>
-</div>
+<!-- SCHOOL MODAL -->
 <div class="mbg" id="mSchool" onclick="if(event.target===this)closeModal('mSchool')">
   <div class="mdl">
     <div class="mhdl"></div>
-    <div class="mtitle">Escuela</div>
-    
-<input type="hidden" id="eSId">
-<div style="display:flex;flex-direction:column;gap:10px">
-  <div class="igroup"><label class="ilbl">Nombre</label><input class="inp" id="sNm" placeholder="Ej: PP26"></div>
-  <div class="igroup"><label class="ilbl">Dirección</label><input class="inp" id="sAddr" placeholder="Av. Mitre 1234"></div>
-  <div class="igroup"><label class="ilbl">Teléfono</label><input class="inp" id="sTel" placeholder="2364-123456"></div>
-  <div class="igroup"><label class="ilbl">Notas permanentes</label><textarea class="inp" id="sNotes" rows="2" placeholder="Observaciones fijas..."></textarea></div>
-</div>
-    <div class="mact"><button class="btn btn-red" onclick="saveSchoolMaster()">Guardar</button><button class="btn btn-dark" onclick="closeModal('mSchool')">Cancelar</button></div>
+    <div class="mtitle" id="mSchoolTitle">Escuela</div>
+    <input type="hidden" id="eSId">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="igroup"><label class="ilbl">Nombre</label><input class="inp" id="sNm" placeholder="Ej: PP26"></div>
+      <div class="igroup"><label class="ilbl">Dirección</label><input class="inp" id="sAddr" placeholder="Av. Mitre 1234"></div>
+      <div class="igroup"><label class="ilbl">Teléfono</label><input class="inp" id="sTel" placeholder="2364-123456"></div>
+      <div class="igroup"><label class="ilbl">Notas permanentes</label><textarea class="inp" id="sNotes" rows="2" placeholder="Observaciones fijas..."></textarea></div>
+    </div>
+    <div class="mact">
+      <button class="btn btn-red" onclick="saveSchoolMaster()">Guardar</button>
+      <button class="btn btn-dark" onclick="closeModal('mSchool')">Cancelar</button>
+    </div>
   </div>
 </div>
 <script>
+
 initFirebase(); initDemoData();
-var user=requireAuth(); if(!user||user.role!=='admin'){window.location.href='menu.html';throw new Error('no admin');}
-var curTab='users';
-function setTab(t,el){curTab=t;document.querySelectorAll('.ftab').forEach(function(b){b.classList.remove('on');});el.classList.add('on');
-  ['users','schools','products','templates','activity'].forEach(function(x){
-    var d=document.getElementById('tab-'+x);
-    d.style.display=x===t?'flex':'none';d.style.flexDirection='column';d.style.gap='8px';
-  });renderTab();}
-document.getElementById('tab-users').style.cssText='display:flex;flex-direction:column;gap:8px';
-function renderTab(){if(curTab==='users')renderUsers();else if(curTab==='schools')renderSchoolsMaster();else if(curTab==='products')renderProds();else if(curTab==='templates')renderTmpls();else renderActivity();}
-/* USERS */
-function renderUsers(){
-  var users=getUsers(),el=document.getElementById('usersList');
-  if(!users.length){el.innerHTML='<div class="empty"><div class="empty-ico">👥</div>Sin usuarios</div>';return;}
-  el.innerHTML=users.map(function(u){var act=u.active!==false;
-    return '<div class="card" style="border-left-color:'+(act?'var(--green2)':'var(--text3)')+'">'+
-      '<div class="card-body" style="display:flex;align-items:center;gap:10px;padding:9px 12px">'+
-      '<div style="font-size:20px">'+(u.role==='admin'?'👑':u.role==='repartidor'?'🚚':'🧱')+'</div>'+
-      '<div style="flex:1"><div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:'+(act?'var(--text)':'var(--text3)')+'">'+escHtml(u.name)+'</div>'+
-      '<div style="font-size:8px;color:var(--text3);font-family:var(--mono)">'+escHtml(u.role||'')+'</div></div>'+
-      '<div style="display:flex;gap:3px">'+
-      '<button class="btn btn-dark btn-xs" onclick="editUser(''+u.id+'')">✏</button>'+
-      '<button class="btn '+(act?'btn-outline':'btn-green')+' btn-xs" onclick="togUser(''+u.id+'','+act+')">'+(act?'Desact.':'Activar')+'</button>'+
-      (u.id!==user.id?'<button class="btn btn-outline btn-xs" style="color:#f87171;border-color:#530e0e" onclick="delUser(''+u.id+'')">🗑</button>':'')+
+var user = requireAuth(); if (!user) throw new Error('no auth');
+var curTab = 'users';
+function setTab(el) {
+  curTab = el.dataset.t;
+  document.querySelectorAll('.ftab').forEach(function(b) { b.classList.remove('on'); });
+  el.classList.add('on');
+  ['users','schools','products','templates','activity'].forEach(function(x) {
+    var d = document.getElementById('tab-' + x);
+    d.style.display = (x === curTab) ? 'flex' : 'none';
+  });
+  renderTab();
+}
+function renderTab() {
+  if (curTab==='users')     renderUsers();
+  else if (curTab==='schools')   renderSchoolsMaster();
+  else if (curTab==='products')  renderProds();
+  else if (curTab==='templates') renderTmpls();
+  else renderActivity();
+}
+/* ── USERS ── */
+function renderUsers() {
+  var users = getUsers(), el = document.getElementById('usersList');
+  if (!users.length) { el.innerHTML = '<div class="empty"><div class="empty-ico">👥</div>Sin usuarios</div>'; return; }
+  el.innerHTML = users.map(function(u) {
+    var act = u.active !== false;
+    var ico = (u.role==='admin') ? '👑' : (u.role==='repartidor') ? '🚚' : '🧱';
+    return '<div class="card" style="border-left-color:' + (act ? 'var(--green2)' : 'var(--text3)') + '">' +
+      '<div class="card-body" style="display:flex;align-items:center;gap:10px;padding:9px 12px">' +
+      '<div style="font-size:20px">' + ico + '</div>' +
+      '<div style="flex:1"><div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px">' + escHtml(u.name) + '</div>' +
+      '<div style="font-size:8px;color:var(--text3);font-family:var(--mono)">' + escHtml(u.role||'') + '</div></div>' +
+      '<div style="display:flex;gap:3px">' +
+      '<button class="btn btn-dark btn-xs" data-uid="' + u.id + '" onclick="editUser(this.dataset.uid)">✏</button>' +
+      '<button class="btn ' + (act?'btn-outline':'btn-green') + ' btn-xs" data-uid="' + u.id + '" data-act="' + act + '" onclick="togUser(this.dataset.uid, this.dataset.act===\'true\')">' + (act?'Desact.':'Activar') + '</button>' +
+      (u.id !== user.id ? '<button class="btn btn-outline btn-xs" style="color:#f87171;border-color:#530e0e" data-uid="' + u.id + '" onclick="delUser(this.dataset.uid)">🗑</button>' : '') +
       '</div></div></div>';
   }).join('');
 }
-function newUser(){document.getElementById('eId').value='';document.getElementById('uNm').value='';document.getElementById('uPw').value='';document.getElementById('uRl').value='armador';document.querySelector('#mUser .mtitle').textContent='Nuevo usuario';openModal('mUser');}
-function editUser(id){var u=getUsers().find(function(x){return x.id===id;});if(!u)return;document.getElementById('eId').value=id;document.getElementById('uNm').value=u.name||'';document.getElementById('uPw').value=u.password||'';document.getElementById('uRl').value=u.role||'armador';document.querySelector('#mUser .mtitle').textContent='Editar: '+u.name;openModal('mUser');}
-function saveUser(){
-  var nm=document.getElementById('uNm').value.trim(),pw=document.getElementById('uPw').value.trim(),rl=document.getElementById('uRl').value,eid=document.getElementById('eId').value;
-  if(!nm){showToast('Completá el nombre','err');return;}
-  var users=getUsers();
-  if(eid){var i=users.findIndex(function(u){return u.id===eid;});if(i>=0){users[i].name=nm;if(pw)users[i].password=pw;users[i].role=rl;fsSet(COL.users,eid,users[i]);}}
-  else{if(!pw){showToast('Ingresá una contraseña','err');return;}var nu={id:'u'+Date.now(),name:nm,password:pw,role:rl,active:true};users.push(nu);fsSet(COL.users,nu.id,nu);}
-  setData('users',users);closeModal('mUser');showToast('Guardado ✓','ok');renderUsers();
+function newUser() { document.getElementById('eId').value=''; document.getElementById('uNm').value=''; document.getElementById('uPw').value=''; document.getElementById('uRl').value='armador'; document.getElementById('mUserTitle').textContent='Nuevo usuario'; openModal('mUser'); }
+function editUser(id) {
+  var u = getUsers().find(function(x) { return x.id===id; }); if (!u) return;
+  document.getElementById('eId').value = id; document.getElementById('uNm').value = u.name||'';
+  document.getElementById('uPw').value = u.password||''; document.getElementById('uRl').value = u.role||'armador';
+  document.getElementById('mUserTitle').textContent = 'Editar: ' + u.name; openModal('mUser');
 }
-function togUser(id,act){var u=getUsers(),i=u.findIndex(function(x){return x.id===id;});if(i<0)return;u[i].active=!act;setData('users',u);fsUpdate(COL.users,id,{active:!act});renderUsers();}
-function delUser(id){if(!confirm('¿Eliminar usuario?'))return;setData('users',getUsers().filter(function(u){return u.id!==id;}));fsDel(COL.users,id);renderUsers();}
-/* MASTER SCHOOLS */
-function renderSchoolsMaster(){
-  var ms=getMasterSchools(),el=document.getElementById('schoolsList');
-  if(!ms.length){el.innerHTML='<div class="empty"><div class="empty-ico">🏫</div>Sin escuelas registradas</div>';return;}
-  el.innerHTML=ms.map(function(s){var act=s.active!==false;
-    return '<div class="card" style="border-left-color:'+(act?'var(--blue2)':'var(--text3)')+'">'+
-      '<div class="card-body" style="padding:9px 12px">'+
-      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">'+
-      '<div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;font-family:var(--mono)">'+escHtml(s.name)+'</div>'+
-      '<div style="display:flex;gap:3px">'+
-      '<button class="btn btn-dark btn-xs" onclick="editSchool(''+escHtml(s.id)+'')">✏</button>'+
-      '<button class="btn btn-outline btn-xs" style="color:#f87171;border-color:#530e0e" onclick="delSchoolMaster(''+escHtml(s.id)+'')">🗑</button>'+
-      '</div></div>'+
-      (s.address?'<div style="font-size:9px;color:var(--text3);font-family:var(--mono)">📍 '+escHtml(s.address)+'</div>':'')+
-      (s.phone?'<div style="font-size:9px;color:var(--text3);font-family:var(--mono)">📞 '+escHtml(s.phone)+'</div>':'')+
-      (s.template&&s.template.length?'<div style="font-size:8px;color:var(--text2);margin-top:3px;font-family:var(--mono)">📋 '+s.template.filter(function(t){return t.qty>0;}).map(function(t){return t.name+' '+t.qty+t.unit;}).join(' · ')+'</div>':'')+
+function saveUser() {
+  var nm=document.getElementById('uNm').value.trim(), pw=document.getElementById('uPw').value.trim(),
+      rl=document.getElementById('uRl').value, eid=document.getElementById('eId').value;
+  if (!nm) { showToast('Completá el nombre','err'); return; }
+  var users = getUsers();
+  if (eid) {
+    var i = users.findIndex(function(u) { return u.id===eid; });
+    if (i>=0) { users[i].name=nm; if(pw) users[i].password=pw; users[i].role=rl; fsSet(COL.users,eid,users[i]); }
+  } else {
+    if (!pw) { showToast('Ingresá una contraseña','err'); return; }
+    var nu = {id:'u'+Date.now(),name:nm,password:pw,role:rl,active:true};
+    users.push(nu); fsSet(COL.users,nu.id,nu);
+  }
+  setData('users',users); closeModal('mUser'); showToast('Guardado ✓','ok'); renderUsers();
+}
+function togUser(id, act) {
+  var u=getUsers(), i=u.findIndex(function(x){return x.id===id;}); if(i<0)return;
+  u[i].active=!act; setData('users',u); fsUpdate(COL.users,id,{active:!act}); renderUsers();
+}
+function delUser(id) {
+  if (!confirm('¿Eliminar usuario?')) return;
+  setData('users', getUsers().filter(function(u){return u.id!==id;}));
+  fsDel(COL.users,id); renderUsers();
+}
+/* ── MASTER SCHOOLS ── */
+function renderSchoolsMaster() {
+  var ms=getMasterSchools(), el=document.getElementById('schoolsList');
+  if (!ms.length) { el.innerHTML='<div class="empty"><div class="empty-ico">🏫</div>Sin escuelas registradas</div>'; return; }
+  el.innerHTML = ms.map(function(s) {
+    return '<div class="card" style="border-left-color:var(--blue2)">' +
+      '<div class="card-body" style="padding:9px 12px">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">' +
+      '<div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;font-family:var(--mono)">' + escHtml(s.name) + '</div>' +
+      '<div style="display:flex;gap:3px">' +
+      '<button class="btn btn-dark btn-xs" data-sid="' + escHtml(s.id) + '" onclick="editSchool(this.dataset.sid)">✏</button>' +
+      '<button class="btn btn-outline btn-xs" style="color:#f87171;border-color:#530e0e" data-sid="' + escHtml(s.id) + '" onclick="delSchoolMaster(this.dataset.sid)">🗑</button>' +
+      '</div></div>' +
+      (s.address ? '<div style="font-size:9px;color:var(--text3);font-family:var(--mono)">📍 ' + escHtml(s.address) + '</div>' : '') +
+      (s.phone ? '<div style="font-size:9px;color:var(--text3);font-family:var(--mono)">📞 ' + escHtml(s.phone) + '</div>' : '') +
+      (s.template&&s.template.length ? '<div style="font-size:8px;color:var(--text2);margin-top:3px;font-family:var(--mono)">📋 ' + s.template.filter(function(t){return t.qty>0;}).map(function(t){return t.name+' '+t.qty+t.unit;}).join(' · ') + '</div>' : '') +
       '</div></div>';
   }).join('');
 }
-function newSchool(){document.getElementById('eSId').value='';document.getElementById('sNm').value='';document.getElementById('sAddr').value='';document.getElementById('sTel').value='';document.getElementById('sNotes').value='';document.querySelector('#mSchool .mtitle').textContent='Nueva escuela';openModal('mSchool');}
-function editSchool(id){var ms=getMasterSchools(),s=ms.find(function(x){return x.id===id;});if(!s)return;document.getElementById('eSId').value=id;document.getElementById('sNm').value=s.name||'';document.getElementById('sAddr').value=s.address||'';document.getElementById('sTel').value=s.phone||'';document.getElementById('sNotes').value=s.notes||'';document.querySelector('#mSchool .mtitle').textContent='Editar: '+s.name;openModal('mSchool');}
-function saveSchoolMaster(){
-  var nm=document.getElementById('sNm').value.trim();if(!nm){showToast('Ingresá un nombre','err');return;}
-  var sid=document.getElementById('eSId').value,ms=getMasterSchools();
-  if(sid){var i=ms.findIndex(function(x){return x.id===sid;});if(i>=0){ms[i].name=nm;ms[i].address=document.getElementById('sAddr').value.trim();ms[i].phone=document.getElementById('sTel').value.trim();ms[i].notes=document.getElementById('sNotes').value.trim();fsSet(COL.masterSchools,sid,ms[i]);}}
-  else{var ns={id:'ms'+Date.now(),name:nm,address:document.getElementById('sAddr').value.trim(),phone:document.getElementById('sTel').value.trim(),notes:document.getElementById('sNotes').value.trim(),active:true,template:[]};ms.push(ns);fsSet(COL.masterSchools,ns.id,ns);}
-  setData('masterSchools',ms);closeModal('mSchool');showToast('Guardado ✓','ok');renderSchoolsMaster();
+function newSchool() { document.getElementById('eSId').value=''; document.getElementById('sNm').value=''; document.getElementById('sAddr').value=''; document.getElementById('sTel').value=''; document.getElementById('sNotes').value=''; document.getElementById('mSchoolTitle').textContent='Nueva escuela'; openModal('mSchool'); }
+function editSchool(id) {
+  var ms=getMasterSchools(), s=ms.find(function(x){return x.id===id;}); if (!s) return;
+  document.getElementById('eSId').value=id; document.getElementById('sNm').value=s.name||'';
+  document.getElementById('sAddr').value=s.address||''; document.getElementById('sTel').value=s.phone||'';
+  document.getElementById('sNotes').value=s.notes||''; document.getElementById('mSchoolTitle').textContent='Editar: '+s.name; openModal('mSchool');
 }
-function delSchoolMaster(id){if(!confirm('¿Eliminar escuela del registro?'))return;setData('masterSchools',getMasterSchools().filter(function(s){return s.id!==id;}));fsDel(COL.masterSchools,id);renderSchoolsMaster();}
-/* PRODUCTS */
-function renderProds(){
-  var prods=getMasterProducts(),el=document.getElementById('prodsList');
-  el.innerHTML=prods.map(function(p,i){var act=p.active!==false;
-    return '<div class="card" style="border-left-color:'+(act?'var(--green2)':'var(--text3)')+'">'+
-      '<div class="card-body" style="display:flex;align-items:center;gap:10px;padding:9px 12px">'+
-      '<div style="flex:1"><div style="font-size:12px;font-weight:700;font-family:var(--mono)">'+escHtml(p.name)+'</div>'+
-      '<div style="font-size:9px;color:var(--text3);font-family:var(--mono)">Unidad: '+escHtml(p.unit)+'</div></div>'+
-      '<div style="display:flex;gap:3px">'+
-      '<button class="btn btn-dark btn-xs" onclick="editProd('+i+')">✏</button>'+
-      '<button class="btn '+(act?'btn-outline':'btn-green')+' btn-xs" onclick="togProd('+i+','+act+')">'+(act?'Desact.':'Activar')+'</button>'+
+function saveSchoolMaster() {
+  var nm=document.getElementById('sNm').value.trim(); if (!nm) { showToast('Ingresá un nombre','err'); return; }
+  var sid=document.getElementById('eSId').value, ms=getMasterSchools();
+  var data = {name:nm, address:document.getElementById('sAddr').value.trim(), phone:document.getElementById('sTel').value.trim(), notes:document.getElementById('sNotes').value.trim()};
+  if (sid) {
+    var i=ms.findIndex(function(x){return x.id===sid;}); if(i>=0){Object.assign(ms[i],data);fsSet(COL.masterSchools,sid,ms[i]);}
+  } else {
+    var ns=Object.assign({id:'ms'+Date.now(),active:true,template:[]},data);ms.push(ns);fsSet(COL.masterSchools,ns.id,ns);
+  }
+  setData('masterSchools',ms); closeModal('mSchool'); showToast('Guardado ✓','ok'); renderSchoolsMaster();
+}
+function delSchoolMaster(id) {
+  if (!confirm('¿Eliminar escuela del registro?')) return;
+  setData('masterSchools',getMasterSchools().filter(function(s){return s.id!==id;}));
+  fsDel(COL.masterSchools,id); renderSchoolsMaster();
+}
+/* ── PRODUCTS ── */
+function renderProds() {
+  var prods=getMasterProducts(), el=document.getElementById('prodsList');
+  el.innerHTML = prods.map(function(p,i) {
+    var act = p.active !== false;
+    return '<div class="card" style="border-left-color:' + (act?'var(--green2)':'var(--text3)') + '">' +
+      '<div class="card-body" style="display:flex;align-items:center;gap:10px;padding:9px 12px">' +
+      '<div style="flex:1"><div style="font-size:12px;font-weight:700;font-family:var(--mono)">' + escHtml(p.name) + '</div>' +
+      '<div style="font-size:9px;color:var(--text3);font-family:var(--mono)">Unidad: ' + escHtml(p.unit) + '</div></div>' +
+      '<div style="display:flex;gap:3px">' +
+      '<button class="btn btn-dark btn-xs" data-pi="' + i + '" onclick="editProd(parseInt(this.dataset.pi))">✏</button>' +
+      '<button class="btn ' + (act?'btn-outline':'btn-green') + ' btn-xs" data-pi="' + i + '" data-act="' + act + '" onclick="togProd(parseInt(this.dataset.pi), this.dataset.act===\'true\')">' + (act?'Desact.':'Activar') + '</button>' +
       '</div></div></div>';
   }).join('');
 }
-function newProd(){document.getElementById('ePId').value='';document.getElementById('pNm').value='';document.getElementById('pUn').value='kg';document.querySelector('#mProd .mtitle').textContent='Nuevo producto';openModal('mProd');}
-function editProd(i){var p=getMasterProducts()[i];if(!p)return;document.getElementById('ePId').value=i;document.getElementById('pNm').value=p.name;document.getElementById('pUn').value=p.unit;document.querySelector('#mProd .mtitle').textContent='Editar: '+p.name;openModal('mProd');}
-function saveProd(){
-  var nm=document.getElementById('pNm').value.trim(),un=document.getElementById('pUn').value,ei=document.getElementById('ePId').value;
-  if(!nm){showToast('Ingresá un nombre','err');return;}
-  var prods=getMasterProducts();
-  if(ei!==''){var i=parseInt(ei);prods[i].name=nm;prods[i].unit=un;}
-  else{prods.push({id:'prod'+Date.now(),name:nm,unit:un,active:true,order:prods.length});}
-  setData('masterProducts',prods);closeModal('mProd');showToast('Guardado ✓','ok');renderProds();
+function newProd() { document.getElementById('ePId').value=''; document.getElementById('pNm').value=''; document.getElementById('pUn').value='kg'; document.getElementById('mProdTitle').textContent='Nuevo producto'; openModal('mProd'); }
+function editProd(i) {
+  var p=getMasterProducts()[i]; if (!p) return;
+  document.getElementById('ePId').value=i; document.getElementById('pNm').value=p.name; document.getElementById('pUn').value=p.unit;
+  document.getElementById('mProdTitle').textContent='Editar: '+p.name; openModal('mProd');
 }
-function togProd(i,act){var prods=getMasterProducts();prods[i].active=!act;setData('masterProducts',prods);renderProds();}
-/* TEMPLATES */
-function renderTmpls(){
-  var ms=getMasterSchools(),el=document.getElementById('tmplList');
-  if(!ms.length){el.innerHTML='<div class="empty"><div class="empty-ico">📋</div>Sin plantillas</div>';return;}
-  el.innerHTML=ms.map(function(s){var tmpl=s.template||[];var hasT=tmpl.filter(function(t){return t.qty>0;}).length>0;
-    return '<div class="card" style="margin-bottom:5px;border-left-color:'+(hasT?'var(--blue2)':'var(--border2)')+'">'+
-      '<div class="card-hdr">'+escHtml(s.name)+(hasT?'<span class="badge bprep">Plantilla guardada</span>':'<span class="badge bsin">Sin plantilla</span>')+'</div>'+
-      (hasT?'<div class="card-body" style="padding:9px 12px">'+tmpl.filter(function(t){return t.qty>0;}).map(function(t){return '<div style="display:flex;justify-content:space-between;font-size:11px;padding:2px 0;border-bottom:1px solid var(--border)"><span>'+escHtml(t.name)+'</span><span style="font-family:var(--mono);font-weight:700">'+t.qty+' '+escHtml(t.unit)+'</span></div>';}).join('')+'<button class="btn btn-outline btn-xs" style="margin-top:7px;color:#f87171;border-color:#530e0e" onclick="clearTmpl(''+escHtml(s.name)+'')">🗑 Limpiar plantilla</button></div>':'');
+function saveProd() {
+  var nm=document.getElementById('pNm').value.trim(), un=document.getElementById('pUn').value, ei=document.getElementById('ePId').value;
+  if (!nm) { showToast('Ingresá un nombre','err'); return; }
+  var prods=getMasterProducts();
+  if (ei !== '') { var i=parseInt(ei); prods[i].name=nm; prods[i].unit=un; }
+  else { prods.push({id:'prod'+Date.now(),name:nm,unit:un,active:true,order:prods.length}); }
+  setData('masterProducts',prods); closeModal('mProd'); showToast('Guardado ✓','ok'); renderProds();
+}
+function togProd(i,act) { var p=getMasterProducts(); p[i].active=!act; setData('masterProducts',p); renderProds(); }
+/* ── TEMPLATES ── */
+function renderTmpls() {
+  var ms=getMasterSchools(), el=document.getElementById('tmplList');
+  if (!ms.length) { el.innerHTML='<div class="empty"><div class="empty-ico">📋</div>Sin escuelas</div>'; return; }
+  el.innerHTML = ms.map(function(s) {
+    var tmpl=s.template||[], hasT=tmpl.filter(function(t){return t.qty>0;}).length>0;
+    return '<div class="card" style="margin-bottom:5px;border-left-color:' + (hasT?'var(--blue2)':'var(--border2)') + '">' +
+      '<div class="card-hdr">' + escHtml(s.name) + (hasT?'<span class="badge bprep">Guardada</span>':'<span class="badge bsin">Vacía</span>') + '</div>' +
+      (hasT ? '<div class="card-body" style="padding:9px 12px">' +
+        tmpl.filter(function(t){return t.qty>0;}).map(function(t){return '<div style="display:flex;justify-content:space-between;font-size:11px;padding:2px 0;border-bottom:1px solid var(--border)"><span>'+escHtml(t.name)+'</span><span style="font-family:var(--mono);font-weight:700">'+t.qty+' '+escHtml(t.unit)+'</span></div>';}).join('') +
+        '<button class="btn btn-outline btn-xs" style="margin-top:7px;color:#f87171;border-color:#530e0e" data-sname="' + escHtml(s.name) + '" onclick="clearTmpl(this.dataset.sname)">🗑 Limpiar</button></div>' : '') +
+      '</div>';
   }).join('');
 }
-function clearTmpl(name){if(!confirm('¿Limpiar plantilla de '+name+'?'))return;var ms=getMasterSchools(),i=ms.findIndex(function(s){return s.name===name;});if(i>=0){ms[i].template=[];setData('masterSchools',ms);}var t=getTemplates();delete t[tmplKey(name)];setData('templates',t);showToast('Plantilla limpiada','ok');renderTmpls();}
-/* ACTIVITY */
-function renderActivity(){
-  var acts=getData('activity')||[],el=document.getElementById('actCard');
-  if(!acts.length){el.innerHTML='<div class="empty" style="padding:12px;font-size:9px">Sin actividad</div>';return;}
-  var c={g:'var(--green2)',y:'var(--yellow2)',r:'var(--red2)',b:'var(--blue2)'};
-  el.innerHTML=acts.map(function(a){return '<div class="lr"><div class="lt">'+escHtml(a.time||'')+'</div><div class="ld" style="background:'+(c[a.color]||'var(--text3)')+'"></div><div class="ltxt"><strong>'+escHtml(a.user||'')+'</strong> '+escHtml(a.action||'')+(a.target?' — '+escHtml(a.target):'')+'</div></div>';}).join('');
+function clearTmpl(name) {
+  if (!confirm('¿Limpiar plantilla de ' + name + '?')) return;
+  var ms=getMasterSchools(), i=ms.findIndex(function(s){return s.name===name;});
+  if (i>=0) { ms[i].template=[]; setData('masterSchools',ms); }
+  var t=getTemplates(); delete t[tmplKey(name)]; setData('templates',t);
+  showToast('Plantilla limpiada','ok'); renderTmpls();
 }
-initLiveData({onUsers:renderTab,onSchools:renderTab,onMasterSchools:function(){if(curTab==='schools'||curTab==='templates')renderTab();}});renderTab();
+/* ── ACTIVITY ── */
+function renderActivity() {
+  var acts=getData('activity')||[], el=document.getElementById('actCard');
+  if (!acts.length) { el.innerHTML='<div class="empty" style="padding:12px;font-size:9px">Sin actividad</div>'; return; }
+  var c={g:'var(--green2)',y:'var(--yellow2)',r:'var(--red2)',b:'var(--blue2)'};
+  el.innerHTML = acts.map(function(a) {
+    return '<div class="lr"><div class="lt">' + escHtml(a.time||'') + '</div><div class="ld" style="background:' + (c[a.color]||'var(--text3)') + '"></div><div class="ltxt"><strong>' + escHtml(a.user||'') + '</strong> ' + escHtml(a.action||'') + (a.target ? ' — ' + escHtml(a.target) : '') + '</div></div>';
+  }).join('');
+}
+initLiveData({onUsers:renderTab, onSchools:renderTab});
+renderTab();
+
 </script>
-</body>
-</html>
+</body></html>

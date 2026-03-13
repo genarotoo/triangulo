@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#c1121f">
 <title>Triángulo · Pedido</title>
@@ -201,6 +201,66 @@ hr.div{border:none;border-top:1px solid var(--border)}
 .next-name{font-size:13px;font-weight:700;color:var(--orange2);margin-top:2px;letter-spacing:.8px;font-family:var(--mono)}
 @supports(padding-bottom:env(safe-area-inset-bottom)){.page-body{padding-bottom:calc(50px + env(safe-area-inset-bottom))}.cbar{padding-bottom:calc(8px + env(safe-area-inset-bottom))}.mdl{padding-bottom:calc(36px + env(safe-area-inset-bottom))}}
 @media(min-width:481px){.mdl{border-radius:var(--r);margin:auto}.mbg{align-items:center;padding:20px}}
+
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:14px}
+.box{width:100%;max-width:340px;background:#181818;border:2px solid var(--border);border-radius:2px;overflow:hidden;box-shadow:0 16px 64px rgba(0,0,0,.95)}
+.lhdr{background:var(--red);padding:16px;border-bottom:4px solid #7a000a;display:flex;flex-direction:column;align-items:center;gap:10px;box-shadow:0 3px 0 #3d0005}
+.llogo{max-height:54px;width:auto;object-fit:contain;filter:brightness(0) invert(1)}
+.lname{font-size:10px;color:rgba(255,255,255,.55);letter-spacing:2px;text-transform:uppercase;font-family:var(--mono)}
+.lbody{padding:20px 16px;display:flex;flex-direction:column;gap:13px}
+.llbl{font-size:8px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.12em;display:block;margin-bottom:3px;font-family:var(--mono)}
+.lerr{background:#190202;border:1px solid #530e0e;border-left:3px solid var(--red2);color:#f87171;border-radius:1px;padding:8px 11px;font-size:9px;font-weight:700;display:none;text-transform:uppercase;letter-spacing:.07em;font-family:var(--mono)}
+.lbtn{width:100%;padding:12px;background:var(--red2);border:none;border-bottom:3px solid #7a000a;border-radius:var(--r);font-size:11px;font-weight:700;color:#fff;cursor:pointer;font-family:'Rubik',sans-serif;letter-spacing:1.5px;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .1s;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.lbtn:disabled{opacity:.45}
+.lftr{padding:8px 16px;font-size:8px;color:#383838;border-top:1px solid var(--border);letter-spacing:1px;text-transform:uppercase;font-family:var(--mono);text-align:center}
+
+/* PEDIDO PAGE LAYOUT */
+.ped-wrap{display:flex;flex-direction:column;height:100vh;overflow:hidden}
+.ped-hdr{background:var(--red);border-bottom:4px solid #7a000a;box-shadow:0 3px 0 #3d0005,0 4px 20px rgba(0,0,0,.7);flex-shrink:0;padding:10px 13px 8px}
+.ped-hdr-row1{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.ped-logo{height:28px;width:auto;filter:brightness(0) invert(1)}
+.ped-back{color:rgba(255,255,255,.75);font-size:18px;line-height:1;background:none;border:none;cursor:pointer;padding:2px 6px 2px 0;flex-shrink:0}
+.ped-school{font-size:20px;font-weight:900;letter-spacing:1.5px;color:#fff;text-transform:uppercase;font-family:var(--mono);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ped-hdr-row2{display:flex;align-items:center;gap:7px}
+.ped-date{font-size:9px;color:rgba(255,255,255,.6);letter-spacing:1px;font-family:var(--mono);text-transform:uppercase;flex:1}
+.ped-status-wrap{position:relative}
+.ped-status-btn{display:flex;align-items:center;gap:4px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.2);border-radius:1px;padding:4px 9px;cursor:pointer;font-family:"Rubik",sans-serif;font-size:9px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.08em}
+.ped-status-btn:active{background:rgba(0,0,0,.5)}
+.ped-prog-bar{height:4px;background:rgba(0,0,0,.3);border-radius:1px;overflow:hidden;margin-top:7px}
+.ped-prog-fill{height:100%;background:rgba(255,255,255,.8);transition:width .4s}
+.ped-prog-lbl{font-size:8px;color:rgba(255,255,255,.55);margin-top:3px;font-family:var(--mono)}
+/* STATUS DROPDOWN */
+.st-dropdown{position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;display:none}
+.st-dropdown.open{display:block}
+.st-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.7)}
+.st-menu{position:absolute;right:13px;top:80px;background:var(--card2);border:1px solid var(--border2);border-radius:2px;min-width:170px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.8)}
+.st-opt{display:flex;align-items:center;gap:9px;padding:11px 14px;cursor:pointer;font-size:12px;font-weight:600;border-bottom:1px solid var(--border);transition:background .07s}
+.st-opt:last-child{border-bottom:none}
+.st-opt:active,.st-opt:hover{background:var(--card)}
+.st-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+/* MAIN PRODUCTS AREA */
+.ped-main{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.ped-toolbar-top{display:flex;align-items:center;gap:6px;padding:7px 10px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--card)}
+.ped-srch{flex:1;display:flex;position:relative}
+.ped-srch input{flex:1;padding:6px 10px 6px 28px;background:#080808;border:1px solid var(--border2);border-radius:1px;color:var(--text);font-family:"Rubik",sans-serif;font-size:13px;outline:none}
+.ped-srch input:focus{border-color:var(--red2)}
+.ped-srch .si{position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:12px;pointer-events:none;color:var(--text3)}
+.ped-products{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+/* BOTTOM TOOLBAR */
+.ped-btoolbar{background:var(--card);border-top:2px solid var(--border);display:flex;flex-shrink:0}
+.ped-tool-btn{flex:1;display:flex;flex-direction:column;align-items:center;padding:8px 4px 6px;cursor:pointer;border-right:1px solid var(--border);background:none;border-top:none;border-bottom:none;font-family:"Rubik",sans-serif;color:var(--text3);transition:background .07s;position:relative}
+.ped-tool-btn:last-child{border-right:none}
+.ped-tool-btn.on{background:rgba(193,18,31,.1);color:var(--red2)}
+.ped-tool-btn:active{background:var(--card2)}
+.ped-tool-ico{font-size:17px;line-height:1}
+.ped-tool-lbl{font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-top:2px;font-family:var(--mono)}
+.ped-badge-dot{position:absolute;top:6px;right:50%;margin-right:-12px;width:6px;height:6px;border-radius:50%;background:var(--red2)}
+/* PANELS */
+.ped-panel{flex-shrink:0;border-top:2px solid var(--border);background:var(--bg);overflow-y:auto;max-height:45vh;display:none}
+.ped-panel.open{display:block}
+.ped-panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:var(--card2);border-bottom:1px solid var(--border);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);font-family:var(--mono)}
+/* DELIVERY NOTE */
+.dlv-note{background:#1a0000;border-bottom:2px solid var(--red);padding:8px 12px;font-size:11px;color:#fca5a5;font-weight:700;display:none;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -208,225 +268,447 @@ hr.div{border:none;border-top:1px solid var(--border)}
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 <script src="js/app.js"></script>
-<div class="hdr">
-  <div class="hdr-top">
-    <div class="hdr-brand">
-      <img src="https://estamosenlaweb.com.ar/upload/products/3409/logo.jpg" class="hdr-logo" alt="El Triángulo" onerror="this.classList.add('err')">
-      <div class="hdr-logo-fallback" style="width:30px;height:27px;flex-shrink:0"><svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%"><polygon points="50,3 97,87 3,87" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.9)" stroke-width="7"/><polygon points="50,21 78,74 22,74" fill="rgba(255,255,255,0.1)"/></svg></div>
-      <div class="hdr-texts">
-        <div class="hdr-name">Triángulo</div>
-        <div class="hdr-sub" id="hdrSub">Pedido</div>
+
+<div class="ped-wrap">
+  <!-- HEADER -->
+  <div class="ped-hdr">
+    <div class="ped-hdr-row1">
+      <button class="ped-back" id="backBtn" onclick="goBack()">&#8592;</button>
+      <img src="https://estamosenlaweb.com.ar/upload/products/3409/logo.jpg" class="ped-logo" alt="" onerror="this.style.display='none'">
+      <div class="ped-school" id="sName">—</div>
+      <div id="assignedTag"></div>
+    </div>
+    <div class="ped-hdr-row2">
+      <div class="ped-date" id="pedDate">—</div>
+      <div class="ped-status-wrap">
+        <button class="ped-status-btn" onclick="toggleStatusMenu()" id="statusBtn">
+          <span id="statusTxt">—</span>
+          <span>▾</span>
+        </button>
       </div>
     </div>
+    <div class="ped-prog-bar"><div class="ped-prog-fill" id="progFill" style="width:0%"></div></div>
+    <div class="ped-prog-lbl" id="progLbl"></div>
   </div>
-  <a href="#" class="hdr-back">&#8592; Escuelas</a>
-</div>
-<div class="page-body">
-  <!-- HEADER CARD -->
-  <div class="card" style="border-left-color:var(--red2)"><div class="card-body">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-      <div style="font-size:18px;font-weight:700;text-transform:uppercase;letter-spacing:1px;font-family:var(--mono)" id="sName">—</div>
-      <div id="aBadge"></div>
-    </div>
-    <div id="fichaInfo" style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:8px"></div>
-    <div id="delivNote"></div>
-    <!-- PIPELINE -->
-    <div class="pipe" id="pipe">
-      <div class="pp" data-k="sin-armar"  onclick="setSt('sin-armar')">Sin<br>armar</div>
-      <div class="pp" data-k="armando"    onclick="setSt('armando')">Arman-<br>do</div>
-      <div class="pp" data-k="armado"     onclick="setSt('armado')">Armado</div>
-      <div class="pp" data-k="preparando" onclick="setSt('preparando')">Prepa-<br>rando</div>
-      <div class="pp" data-k="en-reparto" onclick="setSt('en-reparto')">En<br>reparto</div>
-      <div class="pp" data-k="entregado"  onclick="setSt('entregado')">Entreg-<br>ado</div>
-    </div>
-  </div></div>
+  <!-- STATUS DROPDOWN -->
+  <div class="st-dropdown" id="stDrop">
+    <div class="st-backdrop" onclick="toggleStatusMenu()"></div>
+    <div class="st-menu" id="stMenu"></div>
+  </div>
+  <!-- DELIVERY NOTE (repartidor only) -->
+  <div class="dlv-note" id="dlvNote"></div>
   <!-- FALTANTES -->
-  <div id="faltCard" style="display:none"></div>
-  <!-- PRODUCTOS -->
-  <div class="card">
-    <div class="card-hdr">
-      <span id="pHdr">📦 PRODUCTOS</span>
-      <div style="display:flex;gap:3px">
-        <button class="btn btn-xs btn-green" onclick="markAll()">✔ Todo</button>
-        <button class="btn btn-xs btn-dark" onclick="openModal('mSave')">💾 Plantilla</button>
+  <div id="faltBar" style="display:none;flex-shrink:0"></div>
+  <!-- MAIN PRODUCTS -->
+  <div class="ped-main">
+    <div class="ped-toolbar-top">
+      <div class="ped-srch"><span class="si">🔎</span><input type="text" id="srch" placeholder="Buscar producto..." oninput="renderProds()"></div>
+      <button class="btn btn-green btn-sm" onclick="markAll()">✔ Todo</button>
+    </div>
+    <div class="ped-products" id="prodList"></div>
+  </div>
+  <!-- PANELS (shown above toolbar) -->
+  <div class="ped-panel" id="pChecklist">
+    <div class="ped-panel-hdr"><span>✅ CHECKLIST DE PREPARACIÓN</span><button onclick="closePanel()" style="background:none;border:none;color:var(--text3);font-size:16px;cursor:pointer">×</button></div>
+    <div id="chkContent"></div>
+  </div>
+  <div class="ped-panel" id="pObs">
+    <div class="ped-panel-hdr"><span>💬 OBSERVACIONES</span>
+      <div style="display:flex;gap:4px">
+        <button class="btn btn-xs btn-dark" onclick="openAddObs()">+ Agregar</button>
+        <button onclick="closePanel()" style="background:none;border:none;color:var(--text3);font-size:16px;cursor:pointer">×</button>
       </div>
     </div>
-    <div style="padding:6px 12px 5px">
-      <div class="pt"><div class="pf" id="pProg" style="width:0%"></div></div>
-      <div style="font-size:8px;color:var(--text3);margin-top:3px;font-family:var(--mono)" id="pProgLbl"></div>
+    <div id="obsContent"></div>
+    <div id="obsInputWrap" style="display:none;padding:8px 12px;border-top:1px solid var(--border)">
+      <textarea class="inp" id="newObs" rows="2" placeholder="Ej: No mandar cebolla, entrar por lateral..."></textarea>
+      <div style="display:flex;gap:5px;margin-top:5px">
+        <button class="btn btn-red btn-sm" onclick="addObs()">Guardar</button>
+        <button class="btn btn-dark btn-sm" onclick="document.getElementById('obsInputWrap').style.display='none'">Cancelar</button>
+      </div>
     </div>
-    <div id="prodList"></div>
   </div>
-  <!-- CHECKLIST -->
-  <div class="card" id="checkCard">
-    <div class="card-hdr"><span>✅ CHECKLIST DE PREPARACIÓN</span><span id="chkPct" style="color:var(--green3)"></span></div>
-    <div id="chkList"></div>
+  <div class="ped-panel" id="pTiempos">
+    <div class="ped-panel-hdr"><span>⏱ TIEMPOS</span><button onclick="closePanel()" style="background:none;border:none;color:var(--text3);font-size:16px;cursor:pointer">×</button></div>
+    <div id="tiemposContent"></div>
   </div>
-  <!-- OBSERVACIONES -->
-  <div class="card">
-    <div class="card-hdr"><span>💬 OBSERVACIONES</span><button class="btn btn-xs btn-dark" onclick="openModal('mObs')">+ Agregar</button></div>
-    <div id="obsList"></div>
+  <div class="ped-panel" id="pFicha">
+    <div class="ped-panel-hdr"><span>🏫 ESCUELA</span>
+      <div style="display:flex;gap:4px">
+        <button class="btn btn-xs btn-dark" onclick="openFichaEdit()">Editar</button>
+        <button onclick="closePanel()" style="background:none;border:none;color:var(--text3);font-size:16px;cursor:pointer">×</button>
+      </div>
+    </div>
+    <div id="fichaContent"></div>
   </div>
-  <!-- TIEMPOS -->
-  <div class="card">
-    <div class="card-hdr"><span>⏱ TIEMPOS</span></div>
-    <div class="tb"><div><div class="tb-lbl">Inicio armado</div><div class="tb-val" id="asVal">—</div></div><button class="btn btn-dark btn-sm" id="asBtn" onclick="regT('as')">Registrar</button></div>
-    <div class="tb"><div><div class="tb-lbl">Fin armado</div><div class="tb-val" id="aeVal">—</div></div><button class="btn btn-dark btn-sm" id="aeBtn" onclick="regT('ae')">Registrar</button></div>
-    <div class="tb"><div><div class="tb-lbl">Llegada a escuela</div><div class="tb-val" id="aVal">—</div></div><button class="btn btn-dark btn-sm" id="aBtn" onclick="regT('a')">Registrar</button></div>
-    <div class="tb"><div><div class="tb-lbl">Entrega</div><div class="tb-val" id="dVal">—</div></div><button class="btn btn-dark btn-sm" id="dBtn" onclick="regT('d')">Registrar</button></div>
-    <div class="tb" id="armDurBlk" style="display:none"><div><div class="tb-lbl">Tiempo de armado</div><div class="tb-val set" id="armDur">—</div></div></div>
-    <div class="tb" id="dlvDurBlk" style="display:none"><div><div class="tb-lbl">Tiempo en escuela</div><div class="tb-val set" id="dlvDur">—</div></div></div>
+  <div class="ped-panel" id="pActividad">
+    <div class="ped-panel-hdr"><span>📜 ACTIVIDAD</span><button onclick="closePanel()" style="background:none;border:none;color:var(--text3);font-size:16px;cursor:pointer">×</button></div>
+    <div id="actContent"></div>
   </div>
-  <!-- FICHA -->
-  <div class="card">
-    <div class="card-hdr"><span>🏫 FICHA DE LA ESCUELA</span><button class="btn btn-xs btn-dark" onclick="openFicha()">Editar</button></div>
-    <div id="fichaBody"></div>
+  <div class="ped-panel" id="pPlantilla">
+    <div class="ped-panel-hdr"><span>💾 GUARDAR PLANTILLA</span><button onclick="closePanel()" style="background:none;border:none;color:var(--text3);font-size:16px;cursor:pointer">×</button></div>
+    <div style="padding:12px">
+      <p style="font-size:11px;color:var(--text3);margin-bottom:10px">Se guardarán las cantidades actuales para usar automáticamente en futuros pedidos de esta escuela.</p>
+      <button class="btn btn-red" onclick="doSaveTemplate()">💾 Guardar plantilla</button>
+    </div>
   </div>
-  <!-- ACTIVIDAD -->
-  <div class="card">
-    <div class="card-hdr"><span>📜 ACTIVIDAD</span></div>
-    <div id="actLog"></div>
+  <!-- BOTTOM TOOLBAR -->
+  <div class="ped-btoolbar">
+    <button class="ped-tool-btn" id="tbPlantilla" data-panel="pPlantilla" onclick="togglePanel(this)"><div class="ped-tool-ico">💾</div><div class="ped-tool-lbl">Plantilla</div></button>
+    <button class="ped-tool-btn" id="tbChecklist" data-panel="pChecklist" onclick="togglePanel(this)"><div class="ped-tool-ico">📋</div><div class="ped-tool-lbl">Checklist</div></button>
+    <button class="ped-tool-btn" id="tbObs"       data-panel="pObs"       onclick="togglePanel(this)"><div class="ped-tool-ico">💬</div><div class="ped-tool-lbl">Notas</div></button>
+    <button class="ped-tool-btn" id="tbTiempos"   data-panel="pTiempos"   onclick="togglePanel(this)"><div class="ped-tool-ico">⏱</div><div class="ped-tool-lbl">Tiempos</div></button>
+    <button class="ped-tool-btn" id="tbFicha"     data-panel="pFicha"     onclick="togglePanel(this)"><div class="ped-tool-ico">🏫</div><div class="ped-tool-lbl">Escuela</div></button>
+    <button class="ped-tool-btn" id="tbActividad" data-panel="pActividad" onclick="togglePanel(this)"><div class="ped-tool-ico">📜</div><div class="ped-tool-lbl">Actividad</div></button>
   </div>
-  <button class="emerg-btn" onclick="openModal('mEmerg')">🚨 Reportar emergencia / problema</button>
 </div>
-<div class="mbg" id="mSave" onclick="if(event.target===this)closeModal('mSave')">
+<!-- FICHA EDIT MODAL -->
+<div class="mbg" id="mFicha" onclick="if(event.target===this)closeModal('mFicha')">
   <div class="mdl">
     <div class="mhdl"></div>
-    <div class="mtitle">Guardar como plantilla</div>
-    <p style="font-size:12px;color:var(--text3);margin-bottom:11px">Se guardará la configuración de cantidades de esta escuela para usar automáticamente en futuros pedidos.</p>
-    <div class="mact"><button class="btn btn-red" onclick="doSaveTemplate()">Guardar plantilla</button><button class="btn btn-dark" onclick="closeModal('mSave')">Cancelar</button></div>
+    <div class="mtitle">Editar ficha de escuela</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="igroup"><label class="ilbl">Dirección</label><input class="inp" id="fDir" placeholder="Av. Mitre 1234"></div>
+      <div class="igroup"><label class="ilbl">Teléfono</label><input class="inp" id="fTel" type="tel" placeholder="2364-123456"></div>
+      <div class="igroup"><label class="ilbl">Contacto</label><input class="inp" id="fCont" placeholder="Director/a"></div>
+      <div class="igroup"><label class="ilbl">Horario</label><input class="inp" id="fHor" placeholder="8:00 a 12:00"></div>
+      <div class="igroup"><label class="ilbl">Nota para repartidor ⚠</label><textarea class="inp" id="fNota" rows="2" placeholder="Ej: Entregar en cocina, entrar por lateral..."></textarea></div>
+    </div>
+    <div class="mact">
+      <button class="btn btn-red" onclick="saveFicha()">Guardar</button>
+      <button class="btn btn-dark" onclick="closeModal('mFicha')">Cancelar</button>
+    </div>
   </div>
-</div><div class="mbg" id="mObs" onclick="if(event.target===this)closeModal('mObs')">
-  <div class="mdl">
-    <div class="mhdl"></div>
-    <div class="mtitle">Agregar observación</div>
-    <textarea class="inp" id="newObs" rows="3" placeholder="Ej: No mandar cebolla, entrar por lateral..."></textarea>
-    <div class="mact"><button class="btn btn-red" onclick="addObs()">Guardar</button><button class="btn btn-dark" onclick="closeModal('mObs')">Cancelar</button></div>
-  </div>
-</div><div class="mbg" id="mFicha" onclick="if(event.target===this)closeModal('mFicha')">
-  <div class="mdl">
-    <div class="mhdl"></div>
-    <div class="mtitle">Ficha de la escuela</div>
-    
-<div style="display:flex;flex-direction:column;gap:10px">
-  <div class="igroup"><label class="ilbl">Dirección</label><input class="inp" id="fDir" placeholder="Av. Mitre 1234"></div>
-  <div class="igroup"><label class="ilbl">Teléfono</label><input class="inp" id="fTel" type="tel" placeholder="2364-123456"></div>
-  <div class="igroup"><label class="ilbl">Contacto</label><input class="inp" id="fCont" placeholder="Director/a"></div>
-  <div class="igroup"><label class="ilbl">Horario</label><input class="inp" id="fHor" placeholder="8:00 a 12:00"></div>
-  <div class="igroup"><label class="ilbl">Nota para repartidor</label><textarea class="inp" id="fNota" rows="2" placeholder="⚠ Ej: Entregar en cocina, entrar por lateral..."></textarea></div>
 </div>
-    <div class="mact"><button class="btn btn-red" onclick="saveFicha()">Guardar</button><button class="btn btn-dark" onclick="closeModal('mFicha')">Cancelar</button></div>
-  </div>
-</div><div class="mbg" id="mEmerg" onclick="if(event.target===this)closeModal('mEmerg')">
+<!-- EMERGENCIA MODAL -->
+<div class="mbg" id="mEmerg" onclick="if(event.target===this)closeModal('mEmerg')">
   <div class="mdl">
     <div class="mhdl"></div>
     <div class="mtitle">🚨 Reportar problema</div>
-    
-<div style="display:flex;flex-direction:column;gap:5px;margin-bottom:11px">
-  <button class="btn btn-dark btn-sm" onclick="sendE('Escuela cerrada')">Escuela cerrada</button>
-  <button class="btn btn-dark btn-sm" onclick="sendE('Producto faltante')">Producto faltante</button>
-  <button class="btn btn-dark btn-sm" onclick="sendE('Error en pedido')">Error en pedido</button>
-  <button class="btn btn-dark btn-sm" onclick="sendE('No recibieron')">No recibieron</button>
-</div>
-<textarea class="inp" id="eTxt" rows="2" placeholder="Descripción del problema..."></textarea>
-    <div class="mact"><button class="btn btn-red" onclick="sendE('Otro')">Enviar al chat</button><button class="btn btn-dark" onclick="closeModal('mEmerg')">Cancelar</button></div>
+    <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:11px">
+      <button class="btn btn-dark btn-sm" data-tp="Escuela cerrada" onclick="sendE(this.dataset.tp)">Escuela cerrada</button>
+      <button class="btn btn-dark btn-sm" data-tp="Producto faltante" onclick="sendE(this.dataset.tp)">Producto faltante</button>
+      <button class="btn btn-dark btn-sm" data-tp="Error en pedido" onclick="sendE(this.dataset.tp)">Error en pedido</button>
+      <button class="btn btn-dark btn-sm" data-tp="No recibieron" onclick="sendE(this.dataset.tp)">No recibieron</button>
+    </div>
+    <textarea class="inp" id="eTxt" rows="2" placeholder="Descripción del problema..."></textarea>
+    <div class="mact">
+      <button class="btn btn-red" data-tp="Otro" onclick="sendE(this.dataset.tp)">Enviar al chat</button>
+      <button class="btn btn-dark" onclick="closeModal('mEmerg')">Cancelar</button>
+    </div>
   </div>
 </div>
 <script>
+
 initFirebase(); initDemoData();
-var user=requireAuth(); if(!user)throw new Error('no auth');
-var params=new URLSearchParams(window.location.search),sid=params.get('id');
-if(!sid){window.location.href='escuelas.html';throw new Error('no id');}
-function gS(){return getSchool(sid);}
-var CHKITEMS=[{k:'bolsas',lbl:'Bolsas cerradas'},{k:'etiqueta',lbl:'Etiqueta colocada'},{k:'revisado',lbl:'Pedido revisado'},{k:'cargado',lbl:'Cargado al camión'}];
-function render(){
-  var s=gS();if(!s)return;
-  document.getElementById('hdrSub').textContent='Pedido — '+s.name;
-  document.getElementById('sName').textContent=s.name;
-  var bk=document.querySelector('.hdr-back');if(bk)bk.href='escuelas.html?day='+(s.dayId||'');
-  document.getElementById('aBadge').innerHTML=s.assignedTo?'<span class="badge bprep">&#9654; '+escHtml(s.assignedTo)+'</span>':'';
-  // delivery note (only for repartidor)
-  var dn=document.getElementById('delivNote');
-  if(s.ficha&&s.ficha.nota&&(user.role==='repartidor'||user.role==='admin')){
-    dn.innerHTML='<div class="warn-row" style="margin-bottom:6px">⚠ '+escHtml(s.ficha.nota)+'</div>';
-  }else{dn.innerHTML='';}
-  // ficha info chips
-  var f=s.ficha||{};
-  var fi=[];if(f.direccion)fi.push('📍 '+escHtml(f.direccion));if(f.telefono)fi.push('📞 '+escHtml(f.telefono));if(f.horario)fi.push('🕐 '+escHtml(f.horario));
-  document.getElementById('fichaInfo').innerHTML=fi.map(function(i){return '<span style="font-size:8px;background:var(--card2);border:1px solid var(--border);padding:2px 6px;border-radius:1px;color:var(--text3);font-family:var(--mono)">'+i+'</span>';}).join('');
-  // pipeline
-  var ORD=['sin-armar','armando','armado','preparando','en-reparto','entregado'];
-  var ci=ORD.indexOf(s.status);
-  document.querySelectorAll('.pp').forEach(function(el){var i=ORD.indexOf(el.dataset.k);el.className='pp'+(i===ci?' now':i<ci?' past':'');});
-  // products
-  var pr=s.products||[],active=pr.filter(function(p){return parseFloat(p.qty)>0;});
-  var dn2=active.filter(function(p){return p.assembled;}).length;
-  var pp=active.length?Math.round(dn2/active.length*100):0;
-  document.getElementById('pHdr').textContent='📦 PRODUCTOS ('+dn2+'/'+active.length+')';
-  document.getElementById('pProg').style.width=pp+'%';
-  document.getElementById('pProgLbl').textContent=dn2+' de '+active.length+' productos armados';
-  var pend=active.filter(function(p){return !p.assembled;});
-  var fc=document.getElementById('faltCard');
-  if(pend.length&&s.status!=='sin-armar'){fc.style.display='block';fc.innerHTML='<div class="alert-row">⚠ FALTAN: <b>'+pend.map(function(p){return p.name;}).join(', ')+'</b></div>';}
-  else{fc.style.display='none';}
-  document.getElementById('prodList').innerHTML=!pr.length?'<div class="empty" style="padding:10px;font-size:9px">Sin productos</div>':
-    pr.map(function(p,i){
-      var has=parseFloat(p.qty)>0;
-      if(!has)return '<div class="pr" style="opacity:.3;cursor:default" onclick="focusQty('+i+')">'+
-        '<div class="pchk"></div>'+
-        '<div class="pnm" style="font-size:12px;color:var(--text3)">'+escHtml(p.name)+'</div>'+
-        '<input type="number" min="0" placeholder="0" value="" style="width:56px;background:#070707;border:1px solid var(--border2);border-radius:1px;color:var(--text3);font-family:var(--mono);font-size:11px;padding:3px 5px;text-align:right;outline:none" id="qty_'+i+'" onchange="setQty('+i+',this.value)" onfocus="this.select()">'+
-        '<span style="font-size:9px;color:var(--text3);font-family:var(--mono);min-width:24px">'+escHtml(p.unit)+'</span></div>';
-      return '<div class="pr'+(p.assembled?' on':'')+'" onclick="togP('+i+')">'+
-        '<div class="pchk'+(p.assembled?' on':'')+'>'+(p.assembled?'✔':'')+'</div>'+
-        '<div class="pnm">'+escHtml(p.name)+(p.assembled&&p.assembledBy?'<span class="pby">✔ '+escHtml(p.assembledBy)+'</span>':'')+'</div>'+
-        '<input type="number" min="0" value="'+escHtml(String(p.qty))+'" style="width:56px;background:#070707;border:1px solid var(--border2);border-radius:1px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:700;padding:3px 5px;text-align:right;outline:none" id="qty_'+i+'" onclick="event.stopPropagation()" onchange="setQty('+i+',this.value)" onfocus="this.select()">'+
-        '<span class="pqt" style="min-width:30px">'+escHtml(p.unit)+'</span></div>';
-    }).join('');
-  // checklist
-  var chk=s.checklist||{};
-  var chkDone=CHKITEMS.filter(function(it){return chk[it.k];}).length;
-  document.getElementById('chkPct').textContent=chkDone+'/'+CHKITEMS.length;
-  document.getElementById('chkList').innerHTML=CHKITEMS.map(function(it){
-    return '<div class="chk-row" onclick="togChk(''+it.k+'')">'+
-      '<div class="chk-box'+(chk[it.k]?' on':'')+'>'+(chk[it.k]?'✔':'')+'</div>'+
-      '<div class="chk-lbl'+(chk[it.k]?' style="color:var(--text3)"':'')+'">'+escHtml(it.lbl)+'</div></div>';
-  }).join('');
-  if(chkDone===CHKITEMS.length&&CHKITEMS.length>0){
-    document.getElementById('checkCard').style.borderLeftColor='var(--green2)';
-  }
-  // obs
-  var obs=s.comments||[];
-  document.getElementById('obsList').innerHTML=!obs.length?'<div class="empty" style="padding:9px;font-size:9px">Sin observaciones</div>':
-    obs.map(function(c,i){return '<div class="lr" style="align-items:flex-start"><div class="lt">💬</div><div class="ltxt" style="flex:1">'+escHtml(c)+'</div><button onclick="delObs('+i+')" style="background:none;border:none;color:var(--text3);font-size:14px;cursor:pointer;padding:0 4px">×</button></div>';}).join('');
-  // times
-  function setTV(id,v){var el=document.getElementById(id);el.textContent=v||'—';el.className='tb-val'+(v?' set':'');}
-  setTV('asVal',s.assemblyStart);setTV('aeVal',s.assemblyEnd);setTV('aVal',s.arrivalTime);setTV('dVal',s.departureTime);
-  if(s.assemblyStart&&s.assemblyEnd){var d=calcDuration(s.assemblyStart,s.assemblyEnd);document.getElementById('armDurBlk').style.display='flex';document.getElementById('armDur').textContent=(d>0?d:0)+' min';}
-  if(s.arrivalTime&&s.departureTime){var d2=calcDuration(s.arrivalTime,s.departureTime);document.getElementById('dlvDurBlk').style.display='flex';document.getElementById('dlvDur').textContent=(d2>0?d2:0)+' min';}
-  // ficha body
-  var fEl=document.getElementById('fichaBody');
-  var fi2=[{ic:'📍',l:'Dirección',v:f.direccion},{ic:'📞',l:'Teléfono',v:f.telefono},{ic:'👤',l:'Contacto',v:f.contacto},{ic:'🕐',l:'Horario',v:f.horario}].filter(function(i){return i.v;});
-  fEl.innerHTML=!fi2.length?'<div class="empty" style="padding:9px;font-size:9px">Tocá Editar para completar la ficha</div>':
-    fi2.map(function(i){return '<div class="lr"><div class="lt">'+i.ic+'</div><div><div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);font-family:var(--mono)">'+i.l+'</div><div style="font-size:12px;font-weight:600;font-family:var(--mono)">'+escHtml(i.v)+'</div></div></div>';}).join('');
-  // activity
-  var acts=(getData('activity')||[]).filter(function(a){return a.target===s.name;}).slice(0,6);
-  document.getElementById('actLog').innerHTML=!acts.length?'<div class="empty" style="padding:9px;font-size:9px">Sin actividad</div>':
-    acts.map(function(a){return '<div class="lr"><div class="lt">'+escHtml(a.time)+'</div><div class="ld" style="background:var(--green2)"></div><div class="ltxt"><strong>'+escHtml(a.user)+'</strong> '+escHtml(a.action)+'</div></div>';}).join('');
+var user = requireAuth(); if (!user) throw new Error('no auth');
+var params = new URLSearchParams(window.location.search), sid = params.get('id');
+if (!sid) { window.location.href = 'escuelas.html'; throw new Error('no id'); }
+function gS() { return getSchool(sid); }
+
+var CHKITEMS = [
+  {k:'bolsas',   lbl:'Bolsas cerradas'},
+  {k:'etiqueta', lbl:'Etiqueta colocada'},
+  {k:'revisado', lbl:'Pedido revisado'},
+  {k:'cargado',  lbl:'Cargado al camión'},
+];
+var ST_CONFIG = {
+  'sin-armar':  {lbl:'Sin armar',  dot:'#f87171', bg:'#220404'},
+  'armando':    {lbl:'Armando',    dot:'#fbbf24', bg:'#1f1100'},
+  'armado':     {lbl:'Armado',     dot:'#4ade80', bg:'#041506'},
+  'preparando': {lbl:'Preparando', dot:'#60a5fa', bg:'#02091c'},
+  'en-reparto': {lbl:'En reparto', dot:'#fb923c', bg:'#1c0c00'},
+  'entregado':  {lbl:'Entregado',  dot:'#34d399', bg:'#010e06'},
+};
+
+/* ── RENDER ── */
+function render() {
+  var s = gS(); if (!s) return;
+  var day = getDay(s.dayId);
+  document.getElementById('sName').textContent = s.name;
+  document.getElementById('pedDate').textContent = day ? (day.dayName || '') + ' ' + (day.date || '') : '';
+  document.getElementById('backBtn').onclick = function() { window.location.href = 'escuelas.html?day=' + (s.dayId||''); };
+  document.getElementById('assignedTag').innerHTML = s.assignedTo ? '<span class="badge bprep" style="font-size:8px">' + escHtml(s.assignedTo) + '</span>' : '';
+  // Status button
+  var stCfg = ST_CONFIG[s.status] || {lbl: s.status, dot:'#888'};
+  document.getElementById('statusTxt').textContent = stCfg.lbl;
+  // Progress
+  var pr = s.products || [], active = pr.filter(function(p) { return parseFloat(p.qty) > 0; });
+  var done = active.filter(function(p) { return p.assembled; }).length;
+  var pp = active.length ? Math.round(done / active.length * 100) : 0;
+  document.getElementById('progFill').style.width = pp + '%';
+  document.getElementById('progLbl').textContent = done + '/' + active.length + ' productos armados — ' + pp + '%';
+  // Delivery note
+  var f = s.ficha || {};
+  var dlvEl = document.getElementById('dlvNote');
+  if (f.nota) { dlvEl.style.display = 'block'; dlvEl.textContent = '⚠ ' + f.nota; }
+  else { dlvEl.style.display = 'none'; }
+  // Faltantes
+  var pend = active.filter(function(p) { return !p.assembled; });
+  var fb = document.getElementById('faltBar');
+  if (pend.length && s.status !== 'sin-armar') {
+    fb.style.display = 'block';
+    fb.innerHTML = '<div class="alert-row" style="border-radius:0;border-left:none;border-right:none">⚠ FALTAN: <b>' + pend.map(function(p){return p.name;}).join(', ') + '</b></div>';
+  } else { fb.style.display = 'none'; }
+  renderProds();
+  renderOpenPanel();
 }
-function setSt(st){var s=gS();if(!s)return;s.status=st;if(st==='armando'&&!s.assemblyStart)s.assemblyStart=fmtTime();if(st==='armado'){s.assemblyEnd=s.assemblyEnd||fmtTime();saveTemplate(s.name,s.products);}saveSchool(s);logActivity('cambió estado a '+st,s.name,'b');render();showToast('Estado: '+st,'ok');if(navigator.vibrate)navigator.vibrate(50);}
-function togP(i){var s=gS();if(!s)return;var p=s.products[i];if(!p||parseFloat(p.qty)<=0)return;p.assembled=!p.assembled;p.assembledBy=p.assembled?user.name:null;if(p.assembled&&s.status==='sin-armar'){s.status='armando';s.assemblyStart=s.assemblyStart||fmtTime();}var active=s.products.filter(function(x){return parseFloat(x.qty)>0;});if(active.length&&active.every(function(x){return x.assembled;})&&s.status==='armando'){s.status='armado';s.assemblyEnd=fmtTime();saveTemplate(s.name,s.products);}saveSchool(s);if(p.assembled)logActivity('marcó '+p.name+' armado',s.name,'g');render();if(navigator.vibrate)navigator.vibrate(30);}
-function setQty(i,v){var s=gS();if(!s)return;s.products[i].qty=parseFloat(v)||0;s.products[i].assembled=false;s.products[i].assembledBy=null;saveSchool(s);render();}
-function markAll(){var s=gS();if(!s)return;s.products.forEach(function(p){if(parseFloat(p.qty)>0){p.assembled=true;p.assembledBy=user.name;}});if(s.status==='sin-armar'||s.status==='armando'){s.status='armado';s.assemblyEnd=s.assemblyEnd||fmtTime();saveTemplate(s.name,s.products);}saveSchool(s);logActivity('marcó todo armado',s.name,'g');render();showToast('Todo armado ✓','ok');}
-function togChk(k){var s=gS();if(!s)return;if(!s.checklist)s.checklist={};s.checklist[k]=!s.checklist[k];if(s.status==='armado'&&s.checklist.bolsas&&s.checklist.etiqueta)s.status='preparando';saveSchool(s);render();if(navigator.vibrate)navigator.vibrate(20);}
-function doSaveTemplate(){var s=gS();if(!s)return;saveTemplate(s.name,s.products);closeModal('mSave');showToast('Plantilla guardada ✓','ok');}
-function addObs(){var t=document.getElementById('newObs').value.trim();if(!t){showToast('Escribí algo','err');return;}var s=gS();if(!s)return;if(!s.comments)s.comments=[];s.comments.push(t);saveSchool(s);closeModal('mObs');document.getElementById('newObs').value='';render();showToast('Guardado','ok');}
-function delObs(i){var s=gS();if(!s)return;s.comments.splice(i,1);saveSchool(s);render();}
-function regT(tp){var s=gS();if(!s)return;var t=fmtTime();if(tp==='as')s.assemblyStart=t;else if(tp==='ae'){s.assemblyEnd=t;if(s.status==='armando')s.status='armado';}else if(tp==='a')s.arrivalTime=t;else{s.departureTime=t;if(s.status==='en-reparto')s.status='entregado';}saveSchool(s);logActivity('registró tiempo '+tp+' '+t,s.name,'b');render();showToast('Registrado: '+t,'ok');}
-function openFicha(){var s=gS();if(!s)return;var f=s.ficha||{};document.getElementById('fDir').value=f.direccion||'';document.getElementById('fTel').value=f.telefono||'';document.getElementById('fCont').value=f.contacto||'';document.getElementById('fHor').value=f.horario||'';document.getElementById('fNota').value=f.nota||'';openModal('mFicha');}
-function saveFicha(){var s=gS();if(!s)return;s.ficha={direccion:document.getElementById('fDir').value.trim(),telefono:document.getElementById('fTel').value.trim(),contacto:document.getElementById('fCont').value.trim(),horario:document.getElementById('fHor').value.trim(),nota:document.getElementById('fNota').value.trim()};saveSchool(s);closeModal('mFicha');showToast('Ficha guardada ✓','ok');render();}
-function sendE(tp){var s=gS();var txt=document.getElementById('eTxt').value.trim();var msg='🚨 '+tp+(s?' — '+s.name:'')+': '+(txt||tp);var ch=getData('chat_general')||[];ch.push({id:'m'+Date.now(),channel:'general',user:user.name,text:msg,time:fmtTime(),emergency:true,ts:Date.now()});setData('chat_general',ch);fsAdd(COL.messages,{channel:'general',user:user.name,text:msg,time:fmtTime(),emergency:true,ts:Date.now()});closeModal('mEmerg');document.getElementById('eTxt').value='';showToast('Emergencia enviada','wrn');if(navigator.vibrate)navigator.vibrate([100,50,100,50,100]);}
-initLiveData({onSchools:render});render();
+
+function renderProds() {
+  var s = gS(); if (!s) return;
+  var q = (document.getElementById('srch').value || '').toLowerCase();
+  var pr = s.products || [];
+  var el = document.getElementById('prodList');
+  if (!pr.length) { el.innerHTML = '<div class="empty"><div class="empty-ico">📦</div>Sin productos</div>'; return; }
+  var html = '';
+  pr.forEach(function(p, i) {
+    if (q && !p.name.toLowerCase().includes(q)) return;
+    var hasQty = parseFloat(p.qty) > 0;
+    html += '<div class="pr' + (p.assembled && hasQty ? ' on' : '') + '" data-i="' + i + '" onclick="hasQtyCheck(' + i + ')">' +
+      '<div class="pchk' + (p.assembled && hasQty ? ' on' : '') + '">' + (p.assembled && hasQty ? '✔' : '') + '</div>' +
+      '<div class="pnm" style="' + (!hasQty ? 'opacity:.4' : '') + '">' + escHtml(p.name) +
+        (p.assembled && p.assembledBy ? '<span class="pby">✔ ' + escHtml(p.assembledBy) + '</span>' : '') +
+      '</div>' +
+      '<input type="number" min="0" step="0.5" value="' + (hasQty ? escHtml(String(p.qty)) : '') + '" placeholder="0"' +
+        ' style="width:54px;background:#070707;border:1px solid var(--border2);border-radius:1px;color:' + (hasQty?'var(--text)':'#444') + ';font-family:var(--mono);font-size:12px;font-weight:700;padding:3px 5px;text-align:right;outline:none"' +
+        ' data-i="' + i + '" onclick="event.stopPropagation();this.select()" onchange="setQty(parseInt(this.dataset.i), this.value)">' +
+      '<span style="font-size:10px;color:var(--text3);font-family:var(--mono);min-width:28px;margin-left:2px">' + escHtml(p.unit) + '</span>' +
+      '</div>';
+  });
+  if (!html) html = '<div class="empty" style="padding:14px;font-size:10px">Sin resultados</div>';
+  el.innerHTML = html;
+}
+
+function hasQtyCheck(i) {
+  var s = gS(); if (!s) return;
+  var p = s.products[i]; if (!p) return;
+  if (parseFloat(p.qty) <= 0) { showToast('Ingresá una cantidad primero', 'wrn'); return; }
+  togP(i);
+}
+function togP(i) {
+  var s = gS(); if (!s) return;
+  var p = s.products[i]; if (!p || parseFloat(p.qty) <= 0) return;
+  p.assembled = !p.assembled; p.assembledBy = p.assembled ? user.name : null;
+  if (p.assembled && s.status === 'sin-armar') { s.status = 'armando'; s.assemblyStart = s.assemblyStart || fmtTime(); }
+  var active = s.products.filter(function(x) { return parseFloat(x.qty) > 0; });
+  if (active.length && active.every(function(x) { return x.assembled; }) && s.status === 'armando') {
+    s.status = 'armado'; s.assemblyEnd = fmtTime(); saveTemplate(s.name, s.products);
+  }
+  saveSchool(s); if (p.assembled) logActivity('marcó ' + p.name + ' armado', s.name, 'g');
+  render(); if (navigator.vibrate) navigator.vibrate(30);
+}
+function setQty(i, v) {
+  var s = gS(); if (!s) return;
+  s.products[i].qty = parseFloat(v) || 0;
+  s.products[i].assembled = false; s.products[i].assembledBy = null;
+  saveSchool(s); render();
+}
+function markAll() {
+  var s = gS(); if (!s) return;
+  s.products.forEach(function(p) { if (parseFloat(p.qty)>0) { p.assembled=true; p.assembledBy=user.name; } });
+  if (s.status==='sin-armar'||s.status==='armando') { s.status='armado'; s.assemblyEnd=s.assemblyEnd||fmtTime(); saveTemplate(s.name,s.products); }
+  saveSchool(s); logActivity('marcó todo armado',s.name,'g'); render(); showToast('Todo armado ✓','ok');
+}
+function doSaveTemplate() {
+  var s = gS(); if (!s) return;
+  saveTemplate(s.name, s.products); closePanel(); showToast('Plantilla guardada ✓','ok');
+}
+
+/* ── STATUS MENU ── */
+function toggleStatusMenu() {
+  var d = document.getElementById('stDrop');
+  if (d.classList.contains('open')) { d.classList.remove('open'); return; }
+  var s = gS(); if (!s) return;
+  var ORDER = ['sin-armar','armando','armado','preparando','en-reparto','entregado'];
+  var html = '';
+  ORDER.forEach(function(k) {
+    var cfg = ST_CONFIG[k] || {lbl:k, dot:'#888'};
+    var active = s.status === k;
+    html += '<div class="st-opt" style="' + (active ? 'background:var(--card2);' : '') + '" data-st="' + k + '" onclick="pickStatus(this.dataset.st)">' +
+      '<div class="st-dot" style="background:' + cfg.dot + '"></div>' +
+      '<div style="font-size:12px;font-weight:' + (active?'700':'500') + '">' + cfg.lbl + '</div>' +
+      (active ? '<div style="margin-left:auto;font-size:12px">✔</div>' : '') +
+      '</div>';
+  });
+  document.getElementById('stMenu').innerHTML = html;
+  d.classList.add('open');
+}
+function pickStatus(st) {
+  document.getElementById('stDrop').classList.remove('open');
+  var s = gS(); if (!s) return;
+  if (st === 'armando' && !s.assemblyStart) s.assemblyStart = fmtTime();
+  if (st === 'armado' && !s.assemblyEnd) { s.assemblyEnd = fmtTime(); saveTemplate(s.name, s.products); }
+  s.status = st; saveSchool(s); logActivity('cambió estado a ' + st, s.name, 'b');
+  render(); showToast('Estado: ' + st, 'ok'); if (navigator.vibrate) navigator.vibrate(50);
+}
+function goBack() { var s=gS(); window.location.href='escuelas.html?day='+(s?s.dayId||'':''); }
+
+/* ── PANELS ── */
+var openPanelId = null;
+var PANELS = ['pPlantilla','pChecklist','pObs','pTiempos','pFicha','pActividad'];
+function togglePanel(btn) {
+  var pid = btn.dataset.panel;
+  if (openPanelId === pid) { closePanel(); return; }
+  closePanel();
+  openPanelId = pid;
+  document.getElementById(pid).classList.add('open');
+  document.querySelectorAll('.ped-tool-btn').forEach(function(b) { b.classList.remove('on'); });
+  btn.classList.add('on');
+  renderOpenPanel();
+}
+function closePanel() {
+  if (openPanelId) { document.getElementById(openPanelId).classList.remove('open'); openPanelId = null; }
+  document.querySelectorAll('.ped-tool-btn').forEach(function(b) { b.classList.remove('on'); });
+}
+function renderOpenPanel() {
+  if (!openPanelId) return;
+  if (openPanelId === 'pChecklist') renderChecklist();
+  else if (openPanelId === 'pObs') renderObs();
+  else if (openPanelId === 'pTiempos') renderTiempos();
+  else if (openPanelId === 'pFicha') renderFicha();
+  else if (openPanelId === 'pActividad') renderActividad();
+}
+
+function renderChecklist() {
+  var s = gS(); if (!s) return;
+  var chk = s.checklist || {};
+  var done = CHKITEMS.filter(function(it) { return chk[it.k]; }).length;
+  var html = '';
+  CHKITEMS.forEach(function(it) {
+    html += '<div class="chk-row" data-k="' + it.k + '" onclick="togChk(this.dataset.k)">' +
+      '<div class="chk-box' + (chk[it.k] ? ' on' : '') + '">' + (chk[it.k] ? '✔' : '') + '</div>' +
+      '<div class="chk-lbl">' + it.lbl + '</div>' +
+      (chk[it.k] ? '<div style="margin-left:auto;font-size:9px;color:var(--green3);font-family:var(--mono)">✔ listo</div>' : '') +
+      '</div>';
+  });
+  if (done === CHKITEMS.length) {
+    html += '<div style="padding:10px 12px;text-align:center;font-size:11px;font-weight:700;color:var(--green3);font-family:var(--mono);border-top:1px solid var(--border)">✔ PEDIDO LISTO PARA VIAJAR</div>';
+  }
+  document.getElementById('chkContent').innerHTML = html;
+  document.getElementById('tbChecklist').querySelector('.ped-badge-dot') && document.getElementById('tbChecklist').querySelector('.ped-badge-dot').remove();
+  if (done > 0 && done < CHKITEMS.length) {
+    var dot = document.createElement('div'); dot.className = 'ped-badge-dot'; dot.style.background = 'var(--yellow2)';
+    document.getElementById('tbChecklist').appendChild(dot);
+  }
+}
+function togChk(k) {
+  var s = gS(); if (!s) return;
+  if (!s.checklist) s.checklist = {};
+  s.checklist[k] = !s.checklist[k];
+  if (s.status === 'armado' && s.checklist.bolsas && s.checklist.etiqueta) s.status = 'preparando';
+  saveSchool(s); renderChecklist(); render(); if (navigator.vibrate) navigator.vibrate(20);
+}
+
+function renderObs() {
+  var s = gS(); if (!s) return;
+  var obs = s.comments || [];
+  document.getElementById('obsContent').innerHTML = !obs.length ?
+    '<div style="padding:11px 12px;font-size:10px;color:var(--text3)">Sin observaciones</div>' :
+    obs.map(function(c,i) {
+      return '<div class="lr" style="align-items:flex-start"><div class="lt">💬</div><div class="ltxt" style="flex:1">' + escHtml(c) + '</div>' +
+        '<button data-i="' + i + '" onclick="delObs(parseInt(this.dataset.i))" style="background:none;border:none;color:var(--text3);font-size:14px;cursor:pointer;padding:0 4px">×</button></div>';
+    }).join('');
+}
+function openAddObs() { document.getElementById('obsInputWrap').style.display = 'block'; document.getElementById('newObs').focus(); }
+function addObs() {
+  var t = document.getElementById('newObs').value.trim(); if (!t) { showToast('Escribí algo','err'); return; }
+  var s = gS(); if (!s) return;
+  if (!s.comments) s.comments = [];
+  s.comments.push(t); saveSchool(s);
+  document.getElementById('obsInputWrap').style.display = 'none';
+  document.getElementById('newObs').value = '';
+  renderObs(); showToast('Guardado','ok');
+}
+function delObs(i) { var s=gS();if(!s)return;s.comments.splice(i,1);saveSchool(s);renderObs(); }
+
+function renderTiempos() {
+  var s = gS(); if (!s) return;
+  function row(lbl, val, key) {
+    var set = !!val;
+    return '<div class="tb"><div><div class="tb-lbl">' + lbl + '</div>' +
+      '<div class="tb-val' + (set?' set':'') + '">' + (val||'—') + '</div></div>' +
+      (!set ? '<button class="btn btn-dark btn-sm" data-key="' + key + '" onclick="regT(this.dataset.key)">Registrar</button>' :
+               '<button class="btn btn-outline btn-sm" data-key="' + key + '" onclick="clearT(this.dataset.key)">Limpiar</button>') +
+      '</div>';
+  }
+  var html = row('Inicio armado', s.assemblyStart, 'as') +
+             row('Fin armado', s.assemblyEnd, 'ae') +
+             row('Llegada a escuela', s.arrivalTime, 'a') +
+             row('Entrega realizada', s.departureTime, 'd');
+  if (s.assemblyStart && s.assemblyEnd) {
+    var d = calcDuration(s.assemblyStart, s.assemblyEnd);
+    html += '<div class="tb"><div><div class="tb-lbl">Tiempo de armado</div><div class="tb-val set">' + (d>=0?d:0) + ' min</div></div></div>';
+  }
+  if (s.arrivalTime && s.departureTime) {
+    var d2 = calcDuration(s.arrivalTime, s.departureTime);
+    html += '<div class="tb"><div><div class="tb-lbl">Tiempo en escuela</div><div class="tb-val set">' + (d2>=0?d2:0) + ' min</div></div></div>';
+  }
+  document.getElementById('tiemposContent').innerHTML = html;
+}
+function regT(tp) {
+  var s = gS(); if (!s) return; var t = fmtTime();
+  if (tp==='as') s.assemblyStart=t;
+  else if (tp==='ae') { s.assemblyEnd=t; if(s.status==='armando')s.status='armado'; }
+  else if (tp==='a') s.arrivalTime=t;
+  else { s.departureTime=t; if(s.status==='en-reparto')s.status='entregado'; }
+  saveSchool(s); logActivity('registró tiempo '+tp+' '+t, s.name, 'b'); render(); showToast('Registrado: '+t,'ok');
+}
+function clearT(tp) {
+  var s = gS(); if (!s) return;
+  if (tp==='as') s.assemblyStart=null;
+  else if (tp==='ae') s.assemblyEnd=null;
+  else if (tp==='a') s.arrivalTime=null;
+  else s.departureTime=null;
+  saveSchool(s); renderTiempos();
+}
+
+function renderFicha() {
+  var s = gS(); if (!s) return;
+  var f = s.ficha || {};
+  var items = [{ic:'📍',l:'Dirección',v:f.direccion},{ic:'📞',l:'Teléfono',v:f.telefono},{ic:'👤',l:'Contacto',v:f.contacto},{ic:'🕐',l:'Horario',v:f.horario}];
+  var html = items.filter(function(i){return i.v;}).map(function(i) {
+    return '<div class="lr"><div class="lt">' + i.ic + '</div><div><div style="font-size:8px;font-weight:700;text-transform:uppercase;color:var(--text3);font-family:var(--mono)">' + i.l + '</div><div style="font-size:12px;font-weight:600">' + escHtml(i.v) + '</div></div></div>';
+  }).join('');
+  if (f.nota) html += '<div style="padding:8px 12px;background:#1a0000;border-top:1px solid var(--red);font-size:11px;color:#fca5a5;font-weight:700">⚠ ' + escHtml(f.nota) + '</div>';
+  if (!html) html = '<div style="padding:11px 12px;font-size:10px;color:var(--text3)">Sin ficha — tocá Editar</div>';
+  document.getElementById('fichaContent').innerHTML = html;
+}
+function openFichaEdit() {
+  var s=gS();if(!s)return;var f=s.ficha||{};
+  document.getElementById('fDir').value=f.direccion||''; document.getElementById('fTel').value=f.telefono||'';
+  document.getElementById('fCont').value=f.contacto||''; document.getElementById('fHor').value=f.horario||'';
+  document.getElementById('fNota').value=f.nota||''; openModal('mFicha');
+}
+function saveFicha() {
+  var s=gS();if(!s)return;
+  s.ficha={direccion:document.getElementById('fDir').value.trim(), telefono:document.getElementById('fTel').value.trim(),
+           contacto:document.getElementById('fCont').value.trim(), horario:document.getElementById('fHor').value.trim(),
+           nota:document.getElementById('fNota').value.trim()};
+  saveSchool(s); closeModal('mFicha'); showToast('Ficha guardada ✓','ok'); render();
+}
+
+function renderActividad() {
+  var s = gS(); if (!s) return;
+  var acts = (getData('activity')||[]).filter(function(a){return a.target===s.name;}).slice(0,8);
+  document.getElementById('actContent').innerHTML = !acts.length ?
+    '<div style="padding:11px 12px;font-size:10px;color:var(--text3)">Sin actividad registrada</div>' :
+    acts.map(function(a) {
+      return '<div class="lr"><div class="lt">' + escHtml(a.time) + '</div><div class="ld" style="background:var(--green2)"></div><div class="ltxt"><strong>' + escHtml(a.user) + '</strong> ' + escHtml(a.action) + '</div></div>';
+    }).join('');
+}
+
+function sendE(tp) {
+  var s=gS(); var txt=document.getElementById('eTxt').value.trim();
+  var msg='🚨 '+tp+(s?' — '+s.name:'')+': '+(txt||tp);
+  var ch=getData('chat_general')||[];
+  ch.push({id:'m'+Date.now(),channel:'general',user:user.name,text:msg,time:fmtTime(),emergency:true,ts:Date.now()});
+  setData('chat_general',ch); fsAdd(COL.messages,{channel:'general',user:user.name,text:msg,time:fmtTime(),emergency:true,ts:Date.now()});
+  closeModal('mEmerg'); document.getElementById('eTxt').value=''; showToast('Emergencia enviada','wrn');
+  if (navigator.vibrate) navigator.vibrate([100,50,100,50,100]);
+}
+
+initLiveData({onSchools: render});
+render();
+
 </script>
-</body>
-</html>
+</body></html>
