@@ -1,7 +1,0 @@
-{
-  "hosting": {
-    "target": "triangulo",
-    "public": ".",
-    "ignore": ["firebase.json", "node_modules", "*.py", "*.md", "*.json"]
-  }
-}
