@@ -6,9 +6,10 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#c1121f">
 <title>Triángulo · Armador</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 90'%3E%3Cpolygon points='50,3 97,87 3,87' fill='%23e31b2a'/%3E%3Cpolygon points='50,22 78,74 22,74' fill='%23b00010'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 90'%3E%3Cpolygon points='50,3 97,87 3,87' fill='%23e31b2a'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
+
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
@@ -184,6 +185,11 @@ hr.div{border:none;border-top:1px solid var(--border);margin:0}
   .mdl{padding-bottom:calc(36px + env(safe-area-inset-bottom))}
 }
 @media(min-width:481px){.mdl{border-radius:2px;margin:auto}.mbg{align-items:center;padding:20px}.app{min-height:100vh}}
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:14px}.box{width:100%;max-width:340px;background:#171717;border:2px solid var(--border);border-radius:2px;overflow:hidden;box-shadow:0 16px 60px rgba(0,0,0,.95)}.lhdr{background:var(--red);padding:16px;border-bottom:4px solid #6b000a;display:flex;flex-direction:column;align-items:center;gap:10px;box-shadow:0 2px 0 #360005}.llogo{max-height:52px;width:auto;object-fit:contain;filter:brightness(0) invert(1)}.lsub{font-size:8px;color:rgba(255,255,255,.55);letter-spacing:2px;text-transform:uppercase;font-family:var(--mono)}.lbody{padding:20px 16px;display:flex;flex-direction:column;gap:12px}.llbl{font-size:8px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.12em;display:block;margin-bottom:3px;font-family:var(--mono)}.lerr{background:#160202;border:1px solid #4a0a0a;border-left:3px solid var(--red2);color:#f87171;border-radius:1px;padding:8px 11px;font-size:9px;font-weight:700;display:none;text-transform:uppercase;letter-spacing:.07em;font-family:var(--mono)}.lbtn{width:100%;padding:12px;background:var(--red2);border:none;border-bottom:3px solid #6b000a;border-radius:1px;font-size:11px;font-weight:700;color:#fff;cursor:pointer;font-family:"Rubik",sans-serif;letter-spacing:1.5px;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:8px}.lbtn:disabled{opacity:.45}.lftr{padding:8px 16px;font-size:8px;color:#333;border-top:1px solid var(--border);letter-spacing:1px;text-transform:uppercase;font-family:var(--mono);text-align:center}
+.sc-edit-btn{background:var(--card2);border:1px solid var(--border);border-left:none;border-radius:0 2px 2px 0;padding:0 12px;cursor:pointer;color:var(--text3);font-size:15px;flex-shrink:0;min-width:42px;display:flex;align-items:center;justify-content:center;transition:background .07s}
+.sc-edit-btn:active{background:var(--border2)}
+.green3{color:var(--green3)}
+
 </style>
 </head>
 <body>
@@ -191,395 +197,555 @@ hr.div{border:none;border-top:1px solid var(--border);margin:0}
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 <script src="js/app.js"></script>
+
+<div class="app">
+<!-- HEADER -->
 <div class="hdr">
   <div class="hdr-top">
-  <button class="hdr-back" onclick="window.location.href='menu.html'">&#8592;</button><img src="https://estamosenlaweb.com.ar/upload/products/3409/logo.jpg" class="hdr-logo" alt="" onerror="this.style.display='none'"><svg width="26" height="23" viewBox="0 0 100 90" style="flex-shrink:0"><polygon points="50,3 97,87 3,87" fill="rgba(255,255,255,.15)" stroke="rgba(255,255,255,.85)" stroke-width="7"/><polygon points="50,22 78,74 22,74" fill="rgba(255,255,255,.08)"/></svg><div class="hdr-texts"><div class="hdr-name">Triángulo</div><div class="hdr-sub" id="hdrSub">Armador</div></div></div>
+    <img src="triangulo.jpeg" class="hdr-logo" alt="El Triángulo" onerror="this.style.display='none'">
+    <div class="hdr-texts">
+      <div class="hdr-name">Triángulo</div>
+      <div class="hdr-sub" id="hdrSub">Armador</div>
+    </div>
+    <button onclick="location.href='menu.html'" style="margin-left:auto;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);border-radius:1px;padding:5px 10px;font-size:10px;font-weight:700;cursor:pointer;font-family:'Rubik',sans-serif;text-transform:uppercase;letter-spacing:.5px">Menú</button>
+  </div>
 </div>
-
-<div class="tabs" id="armTabs">
-  <button class="tab on" data-t="hoy" onclick="setArmTab(this)"><span class="tab-ico">📅</span>Hoy</button>
-  <button class="tab"    data-t="dias"    onclick="setArmTab(this)"><span class="tab-ico">📆</span>Días</button>
-  <button class="tab"    data-t="escuelas" onclick="setArmTab(this)"><span class="tab-ico">🏫</span>Escuelas</button>
-  <button class="tab"    data-t="producto" onclick="setArmTab(this)"><span class="tab-ico">📦</span>Producto</button>
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab on"  id="tab-hoy"      onclick="armTab('hoy')">     <span class="tab-ico">📅</span>Hoy</button>
+  <button class="tab"     id="tab-dias"      onclick="armTab('dias')">    <span class="tab-ico">📆</span>Días</button>
+  <button class="tab"     id="tab-escuelas"  onclick="armTab('escuelas')"><span class="tab-ico">🏫</span>Escuelas</button>
+  <button class="tab"     id="tab-producto"  onclick="armTab('producto')"><span class="tab-ico">📦</span>Producto</button>
 </div>
-<!-- STATS -->
-<div class="statbar" id="armStats" style="display:none">
+<!-- HOY STATS -->
+<div id="statsBar" class="statbar">
   <div class="stat-cell"><div class="stat-val" id="stSin" style="color:#f87171">0</div><div class="stat-lbl">Sin armar</div></div>
   <div class="stat-cell"><div class="stat-val" id="stArm" style="color:#fbbf24">0</div><div class="stat-lbl">Armando</div></div>
   <div class="stat-cell"><div class="stat-val" id="stDone" style="color:#4ade80">0</div><div class="stat-lbl">Listos</div></div>
 </div>
-<div class="prog-wrap" id="armProg" style="display:none">
+<div id="progWrap" class="prog-wrap">
   <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
   <div class="prog-lbl" id="progLbl"></div>
 </div>
+<!-- NEXT BAR -->
 <div class="next-bar" id="nextBar">
   <div class="next-lbl">▶ SIGUIENTE A ARMAR</div>
   <a id="nextLink" href="#" class="next-name" style="display:block;text-decoration:none;color:var(--red2)"></a>
 </div>
-<!-- CONTENT -->
+<!-- SEARCH (for hoy and producto tabs) -->
+<div id="srchWrap" style="display:none;padding:8px 10px;background:var(--plate);border-bottom:1px solid var(--border);flex-shrink:0">
+  <div class="sw"><span class="si">🔎</span><input class="inp" id="srch" type="text" placeholder="Buscar..." oninput="render()" style="height:34px;font-size:12px"></div>
+</div>
+<!-- FILTER TABS (hoy) -->
+<div id="filterBar" style="display:none;overflow-x:auto;padding:6px 10px;background:var(--plate);border-bottom:1px solid var(--border);scrollbar-width:none">
+  <div class="filters">
+    <button class="ftab on" id="ft-todos"      onclick="setFil('todos')">Todos</button>
+    <button class="ftab"    id="ft-sin-armar"  onclick="setFil('sin-armar')">Sin armar</button>
+    <button class="ftab"    id="ft-armando"    onclick="setFil('armando')">Armando</button>
+    <button class="ftab"    id="ft-armado"     onclick="setFil('armado')">Armado</button>
+    <button class="ftab"    id="ft-entregado"  onclick="setFil('entregado')">Entregados</button>
+  </div>
+</div>
+<!-- PRODUCTO FILTER -->
+<div id="prodFilterBar" style="display:none;padding:6px 10px;background:var(--plate);border-bottom:1px solid var(--border)">
+  <div style="font-size:8px;color:var(--text3);font-family:var(--mono);margin-bottom:4px">FILTRAR POR PRODUCTO</div>
+  <div class="filters" id="prodFilterTabs"></div>
+</div>
+<!-- MAIN CONTENT -->
 <div class="content" id="armContent"></div>
 <!-- FAB -->
-<div class="fab" id="armFab" style="display:none">
-  <button class="btn btn-red" style="flex:1" id="armFabBtn" onclick="armFabAction()">＋ Agregar escuela al día</button>
+<div class="fab" id="armFab">
+  <button class="btn btn-red" style="flex:1" id="fabBtn" onclick="fabAction()">＋ Agregar escuela al día</button>
 </div>
+</div>
+
+<!-- NEW SCHOOL MODAL -->
 <div class="mbg" id="mNewSchool" onclick="if(event.target===this)closeModal('mNewSchool')">
-<div class="mdl"><div class="mhdl"></div><div class="mtitle">Nueva escuela en el día</div>
+<div class="mdl">
+  <div class="mhdl"></div>
+  <div class="mtitle">Nueva escuela en el día</div>
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="igroup"><label class="ilbl">Escuela registrada</label>
+      <select class="inp" id="armSchoolSel" onchange="onSchoolSelChange()"><option value="">— Seleccionar —</option></select>
+    </div>
+    <div style="text-align:center;font-size:9px;color:var(--text3);font-family:var(--mono)">— o escribir nombre nuevo —</div>
+    <div class="igroup"><label class="ilbl">Nombre nuevo</label><input class="inp" id="armSchoolName" type="text" placeholder="Ej: Jardín 7" oninput="onSchoolNameInput()"></div>
+    <div id="armProdWrap" style="display:none;background:var(--card2);border:1px solid var(--border);border-radius:1px;padding:10px">
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);font-family:var(--mono);margin-bottom:8px">Cantidades del pedido</div>
+      <div id="armProdList"></div>
+    </div>
+  </div>
+  <div class="mact">
+    <button class="btn btn-red" onclick="createSchoolInDay()">Crear escuela</button>
+    <button class="btn btn-dark" onclick="closeModal('mNewSchool')">Cancelar</button>
+  </div>
+</div>
+</div>
 
-<div style="display:flex;flex-direction:column;gap:10px">
-  <div class="igroup"><label class="ilbl">Escuela registrada</label>
-    <select class="inp" id="armSchoolSel"><option value="">— Seleccionar —</option></select>
-  </div>
-  <div style="text-align:center;font-size:9px;color:var(--text3);font-family:var(--mono)">— o escribir nombre nuevo —</div>
-  <div class="igroup"><label class="ilbl">Nombre nuevo</label><input class="inp" id="armSchoolName" type="text" placeholder="Ej: Jardín 7"></div>
-  <div style="background:var(--card2);border:1px solid var(--border);border-radius:1px;padding:10px;display:none" id="armProdWrap">
-    <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);font-family:var(--mono);margin-bottom:8px">Cantidades (dejar en 0 si no lleva)</div>
-    <div id="armProdList"></div>
-  </div>
-</div>
-<div class="mact"><button class="btn btn-red" onclick="createSchoolInDay()">Crear escuela</button><button class="btn btn-dark" onclick="closeModal('mNewSchool')">Cancelar</button></div></div>
-</div>
+<!-- NEW DAY MODAL -->
 <div class="mbg" id="mNewDay" onclick="if(event.target===this)closeModal('mNewDay')">
-<div class="mdl"><div class="mhdl"></div><div class="mtitle">Crear día de entrega</div>
-
-<div style="display:flex;flex-direction:column;gap:10px">
-  <div class="igroup"><label class="ilbl">Fecha</label><input class="inp" id="ndDate" type="date"></div>
-  <div class="igroup"><label class="ilbl">Copiar escuelas desde</label>
-    <select class="inp" id="ndCopy"><option value="">Ninguno (empezar vacío)</option></select>
+<div class="mdl">
+  <div class="mhdl"></div>
+  <div class="mtitle">Crear día de entrega</div>
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="igroup"><label class="ilbl">Fecha</label><input class="inp" id="ndDate" type="date"></div>
+    <div class="igroup"><label class="ilbl">Copiar escuelas desde</label>
+      <select class="inp" id="ndCopy"><option value="">Ninguno (empezar vacío)</option></select>
+    </div>
+  </div>
+  <div class="mact">
+    <button class="btn btn-red" onclick="createDay()">Crear día</button>
+    <button class="btn btn-dark" onclick="closeModal('mNewDay')">Cancelar</button>
   </div>
 </div>
-<div class="mact"><button class="btn btn-red" onclick="createDay()">Crear día</button><button class="btn btn-dark" onclick="closeModal('mNewDay')">Cancelar</button></div></div>
 </div>
-<div class="mbg" id="mEditSchool" onclick="if(event.target===this)closeModal('mEditSchool')">
-<div class="mdl"><div class="mhdl"></div><div class="mtitle">Editar escuela</div>
 
-<input type="hidden" id="editScId">
-<div style="display:flex;flex-direction:column;gap:10px">
-  <div class="igroup"><label class="ilbl">Nombre</label><input class="inp" id="editScName" type="text"></div>
-  <div class="igroup"><label class="ilbl">Nota para repartidor ⚠</label><input class="inp" id="editScNote" placeholder="Ej: Entregar en cocina"></div>
-  <div class="igroup"><label class="ilbl">Observación</label><input class="inp" id="editScObs" placeholder="Observación del armador"></div>
+<!-- EDIT SCHOOL MODAL -->
+<div class="mbg" id="mEditSc" onclick="if(event.target===this)closeModal('mEditSc')">
+<div class="mdl">
+  <div class="mhdl"></div>
+  <div class="mtitle" id="mEditScTi">Editar escuela</div>
+  <input type="hidden" id="editScId">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="igroup"><label class="ilbl">Nota para repartidor ⚠</label><input class="inp" id="editScNote" placeholder="Ej: Entregar en cocina"></div>
+    <div class="igroup"><label class="ilbl">Observación del día</label><input class="inp" id="editScObs" placeholder="Ej: Pedido reducido hoy"></div>
+    <div class="igroup"><label class="ilbl">Responsable</label>
+      <select class="inp" id="editScAssign">
+        <option value="">— Sin asignar —</option>
+      </select>
+    </div>
+  </div>
+  <div class="mact">
+    <button class="btn btn-red" onclick="saveEditSc()">Guardar</button>
+    <button class="btn btn-outline" style="color:#f87171;border-color:#4a0a0a" onclick="deleteSchoolFromDay()">🗑 Quitar del día</button>
+    <button class="btn btn-dark" onclick="closeModal('mEditSc')">Cancelar</button>
+  </div>
 </div>
-<div class="mact"><button class="btn btn-red" onclick="saveEditSchool()">Guardar</button><button class="btn btn-dark" onclick="closeModal('mEditSchool')">Cancelar</button></div></div>
+</div>
+
+<!-- MASTER SCHOOL MODAL -->
+<div class="mbg" id="mMS" onclick="if(event.target===this)closeModal('mMS')">
+<div class="mdl">
+  <div class="mhdl"></div>
+  <div class="mtitle" id="mMSTi">Escuela</div>
+  <input type="hidden" id="mMSId">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="igroup"><label class="ilbl">Nombre</label><input class="inp" id="mMSNm" placeholder="Ej: PP26"></div>
+    <div class="igroup"><label class="ilbl">Dirección</label><input class="inp" id="mMSAddr" placeholder="Av. Mitre 1234"></div>
+    <div class="igroup"><label class="ilbl">Teléfono</label><input class="inp" id="mMSTel" placeholder="2364-XXXXXX"></div>
+    <div class="igroup"><label class="ilbl">Notas permanentes</label><textarea class="inp" id="mMSNotes" rows="2" placeholder="Observaciones fijas..."></textarea></div>
+  </div>
+  <div class="mact">
+    <button class="btn btn-red" onclick="saveMasterSchool()">Guardar</button>
+    <button class="btn btn-dark" onclick="closeModal('mMS')">Cancelar</button>
+  </div>
+</div>
 </div>
 
 <script>
 initFirebase(); initDemoData();
 var user = requireAuth(); if (!user) throw new Error('no auth');
 document.getElementById('hdrSub').textContent = 'Armador — ' + user.name;
-var curTab = 'hoy', curFilter = 'todos', prodFilter = '';
 
-function setArmTab(el) {
-  curTab = el.dataset.t;
-  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on');});
-  el.classList.add('on');
+var DN = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+var curTab = 'hoy';
+var curFil = 'todos';
+var prodFil = '';
+
+/* ── TABS ── */
+function armTab(t) {
+  curTab = t;
+  ['hoy','dias','escuelas','producto'].forEach(function(x) {
+    document.getElementById('tab-' + x).classList.toggle('on', x === t);
+  });
+  document.getElementById('statsBar').style.display   = t === 'hoy' ? 'flex' : 'none';
+  document.getElementById('progWrap').style.display   = t === 'hoy' ? 'block' : 'none';
+  document.getElementById('nextBar').style.display    = 'none';
+  document.getElementById('filterBar').style.display  = t === 'hoy' ? 'flex' : 'none';
+  document.getElementById('srchWrap').style.display   = (t === 'hoy' || t === 'producto') ? 'block' : 'none';
+  document.getElementById('prodFilterBar').style.display = t === 'producto' ? 'block' : 'none';
+  document.getElementById('armFab').style.display     = (t === 'hoy' || t === 'dias') ? 'flex' : 'none';
+  document.getElementById('fabBtn').textContent = t === 'dias' ? '＋ Crear nuevo día' : '＋ Agregar escuela al día';
+  document.getElementById('srch').value = '';
   render();
 }
-function render() {
-  var showStats = (curTab === 'hoy');
-  document.getElementById('armStats').style.display = showStats ? 'flex' : 'none';
-  document.getElementById('armProg').style.display = showStats ? 'block' : 'none';
-  document.getElementById('armFab').style.display = (curTab==='hoy'||curTab==='dias') ? 'flex' : 'none';
-  document.getElementById('armFabBtn').textContent = curTab==='dias' ? '＋ Crear nuevo día' : '＋ Agregar escuela al día';
-  if (curTab==='hoy')      renderHoy();
-  else if(curTab==='dias') renderDias();
-  else if(curTab==='escuelas') renderEscuelas();
-  else renderProducto();
+function setFil(f) {
+  curFil = f;
+  ['todos','sin-armar','armando','armado','entregado'].forEach(function(x) {
+    var el = document.getElementById('ft-' + x);
+    if (el) el.classList.toggle('on', x === f);
+  });
+  renderHoy();
 }
 function getTodSc() { return getTodaySchools(); }
 
-/* HOY TAB */
+/* ── MAIN RENDER ── */
+function render() {
+  if (curTab === 'hoy')       renderHoy();
+  else if (curTab === 'dias') renderDias();
+  else if (curTab === 'escuelas') renderEscuelas();
+  else renderProducto();
+}
+
+/* ── HOY ── */
 function renderHoy() {
-  var sc = getTodSc(), day = getTodayDay();
+  var sc = getTodSc();
+  var day = getTodayDay();
   document.getElementById('nextBar').style.display = 'none';
+
   if (!day) {
-    document.getElementById('armContent').innerHTML = '<div class="empty"><div class="empty-ico">📅</div>No hay día activo.<br><small>Creá un día desde la pestaña Días</small></div>';
+    document.getElementById('statsBar').style.display = 'none';
+    document.getElementById('progWrap').style.display = 'none';
+    document.getElementById('armContent').innerHTML =
+      '<div class="empty"><div class="empty-ico">📅</div><b>No hay día activo</b><br><small style="font-size:10px;color:var(--text3)">Creá un día desde la pestaña Días</small></div>';
     return;
   }
-  var sin=sc.filter(function(s){return s.status==='sin-armar';}).length;
-  var arm=sc.filter(function(s){return s.status==='armando';}).length;
-  var lst=sc.filter(function(s){return ['armado','preparando','en-reparto','entregado'].indexOf(s.status)>=0;}).length;
-  var ent=sc.filter(function(s){return s.status==='entregado';}).length;
-  var tot=sc.length;
-  var pct=tot?Math.round(ent/tot*100):0;
-  document.getElementById('stSin').textContent=sin;
-  document.getElementById('stArm').textContent=arm;
-  document.getElementById('stDone').textContent=lst;
-  var pf=document.getElementById('progFill'); pf.style.width=pct+'%'; pf.className='prog-fill'+(pct<30?' r':pct<70?' y':'');
-  document.getElementById('progLbl').textContent=ent+' / '+tot+' escuelas entregadas — '+pct+'%';
-  var nx=sc.find(function(s){return s.status==='sin-armar';});
-  if(nx){var nb=document.getElementById('nextBar');nb.style.display='block';document.getElementById('nextLink').textContent='→ '+nx.name;document.getElementById('nextLink').href='pedido.html?id='+nx.id;}
-  // Day header
-  var html='<div class="card" style="border-left-color:var(--red2)"><div class="card-body" style="padding:9px 11px;display:flex;align-items:center;justify-content:space-between"><div><div style="font-size:11px;font-weight:700;font-family:var(--mono);letter-spacing:1px">'+escHtml(day.dayName||'')+' '+escHtml(day.date||'')+'</div><div style="font-size:8px;color:var(--text3);font-family:var(--mono)">'+tot+' escuelas · '+pct+'% completado</div></div>'+(day.completed?'<span class="badge bdone">COMPLETADO</span>':'<span class="badge barm">ACTIVO</span>')+'</div></div>';
-  // Filters
-  html+='<div class="filters">';
-  [['todos','Todos'],['sin-armar','Sin armar'],['armando','Armando'],['armado','Armado'],['en-reparto','Reparto'],['entregado','Entregados']].forEach(function(pair){
-    html+='<button class="ftab'+(curFilter===pair[0]?' on':'')+'" data-f="'+pair[0]+'" onclick="curFilter=this.dataset.f;renderHoy()">'+pair[1]+'</button>';
+
+  var sin  = sc.filter(function(s) { return s.status === 'sin-armar'; }).length;
+  var arm  = sc.filter(function(s) { return s.status === 'armando'; }).length;
+  var lst  = sc.filter(function(s) { return ['armado','preparando','en-reparto','entregado'].indexOf(s.status) >= 0; }).length;
+  var ent  = sc.filter(function(s) { return s.status === 'entregado'; }).length;
+  var tot  = sc.length;
+  var pct  = tot ? Math.round(ent / tot * 100) : 0;
+
+  document.getElementById('stSin').textContent = sin;
+  document.getElementById('stArm').textContent = arm;
+  document.getElementById('stDone').textContent = lst;
+  var pf = document.getElementById('progFill');
+  pf.style.width = pct + '%';
+  pf.className = 'prog-fill' + (pct < 30 ? ' r' : pct < 70 ? ' y' : '');
+  document.getElementById('progLbl').textContent = ent + ' / ' + tot + ' escuelas entregadas — ' + pct + '%';
+
+  var nx = sc.find(function(s) { return s.status === 'sin-armar'; });
+  if (nx) {
+    var nb = document.getElementById('nextBar');
+    nb.style.display = 'block';
+    document.getElementById('nextLink').textContent = '→ ' + nx.name;
+    document.getElementById('nextLink').href = 'pedido.html?id=' + nx.id;
+  }
+
+  var q = document.getElementById('srch').value.toLowerCase();
+  var fil = sc.filter(function(s) {
+    if (q && !s.name.toLowerCase().includes(q)) return false;
+    if (curFil !== 'todos' && s.status !== curFil) return false;
+    return true;
   });
-  html+='</div>';
-  if(!sc.length){html+='<div class="empty"><div class="empty-ico">🏫</div>Sin escuelas — tocá + Agregar</div>';}
-  else{
-    var fil=sc.filter(function(s){return curFilter==='todos'||s.status===curFilter;});
-    if(!fil.length)html+='<div class="empty" style="padding:16px;font-size:10px">Sin escuelas con este estado</div>';
-    fil.forEach(function(s){
-      var pr=s.products||[],active=pr.filter(function(p){return parseFloat(p.qty)>0;});
-      var dn=active.filter(function(p){return p.assembled;}).length;
-      var pp=active.length?Math.round(dn/active.length*100):0;
-      html+='<div style="display:flex;gap:0"><a href="pedido.html?id='+s.id+'" class="sc-card" data-s="'+s.status+'" style="flex:1;border-radius:2px 0 0 2px;border-right:none">'+
-        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">'+
-        '<div class="sc-name">'+escHtml(s.name)+'</div>'+badgeHtml(s.status)+'</div>'+
-        (active.length?'<div style="font-size:9px;color:var(--text3);font-family:var(--mono);margin-bottom:4px">'+dn+'/'+active.length+' armados</div>'+
-        '<div style="height:3px;background:#080808;border-radius:1px;overflow:hidden"><div style="height:100%;background:var(--green2);width:'+pp+'%"></div></div>':'')+
-        (s.assemblyStart?'<div style="font-size:8px;color:var(--text3);margin-top:3px;font-family:var(--mono)">⏱ '+escHtml(s.assemblyStart)+(s.assemblyEnd?' → '+escHtml(s.assemblyEnd):'')+'</div>':'')+
-        '</a>'+
-        '<button data-sid="'+s.id+'" onclick="openEditSchool(this.dataset.sid)" style="background:var(--card2);border:1px solid var(--border);border-left:none;border-radius:0 2px 2px 0;padding:0 10px;cursor:pointer;color:var(--text3);font-size:14px;flex-shrink:0">✎</button>'+
-        '</div>';
+
+  var html = '';
+
+  if (!sc.length) {
+    html = '<div class="empty"><div class="empty-ico">🏫</div>Sin escuelas hoy<br><small style="font-size:10px;color:var(--text3)">Tocá ＋ Agregar para añadir</small></div>';
+  } else if (!fil.length) {
+    html = '<div class="empty" style="padding:16px;font-size:10px">Sin escuelas con este estado</div>';
+  } else {
+    fil.forEach(function(s) {
+      var pr = s.products || [];
+      var active = pr.filter(function(p) { return parseFloat(p.qty) > 0; });
+      var dn = active.filter(function(p) { return p.assembled; }).length;
+      var pp = active.length ? Math.round(dn / active.length * 100) : 0;
+      var obs = (s.comments || []).join(' · ');
+
+      html += '<div style="display:flex;gap:0;margin-bottom:5px">';
+      html += '<a href="pedido.html?id=' + s.id + '" class="sc-card" data-s="' + s.status + '" style="flex:1;border-radius:2px 0 0 2px;border-right:none;min-width:0">';
+      html += '<div style="display:flex;align-items:center;justify-content:space-between;gap:5px;margin-bottom:3px">';
+      html += '<div class="sc-name" style="font-size:13px">' + escHtml(s.name) + '</div>';
+      html += badgeHtml(s.status);
+      html += '</div>';
+      if (s.assignedTo) html += '<div style="font-size:9px;color:var(--text3);font-family:var(--mono);margin-bottom:2px">&#9654; ' + escHtml(s.assignedTo) + '</div>';
+      if (active.length) {
+        html += '<div style="font-size:9px;color:var(--text3);font-family:var(--mono);margin-bottom:4px">' + dn + '/' + active.length + ' armados</div>';
+        html += '<div style="height:3px;background:#080808;border-radius:1px;overflow:hidden"><div style="height:100%;background:var(--green2);width:' + pp + '%"></div></div>';
+      }
+      if (obs) html += '<div style="font-size:9px;color:var(--text3);font-style:italic;margin-top:3px;padding-left:6px;border-left:2px solid var(--border2)">' + escHtml(obs) + '</div>';
+      if (s.assemblyStart) html += '<div style="font-size:8px;color:var(--text3);margin-top:3px;font-family:var(--mono)">⏱ ' + escHtml(s.assemblyStart) + (s.assemblyEnd ? ' → ' + escHtml(s.assemblyEnd) : '') + '</div>';
+      html += '</a>';
+      html += '<button class="sc-edit-btn" data-sid="' + s.id + '" onclick="openEditSc(this.dataset.sid)">✎</button>';
+      html += '</div>';
     });
   }
-  document.getElementById('armContent').innerHTML=html;
+  document.getElementById('armContent').innerHTML = html;
 }
 
-/* DIAS TAB */
+/* ── DIAS ── */
 function renderDias() {
-  var days=getDays(), sc=getSchools();
-  var html='';
-  if(!days.length){document.getElementById('armContent').innerHTML='<div class="empty"><div class="empty-ico">📆</div>Sin días creados</div>';return;}
-  days.forEach(function(d){
-    var dsc=sc.filter(function(s){return s.dayId===d.id;});
-    var ent=dsc.filter(function(s){return s.status==='entregado';}).length;
-    var pct=dsc.length?Math.round(ent/dsc.length*100):0;
-    var isToday=d.active&&!d.completed;
-    html+='<a href="dias_detalle.html?day='+d.id+'" class="sc-card" data-s="'+(isToday?'armando':'entregado')+'" style="margin-bottom:5px;text-decoration:none">'+
-      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">'+
-      '<div class="sc-name">'+escHtml(d.dayName||'')+' '+escHtml(d.date||'')+'</div>'+
-      (isToday?'<span class="badge barm">HOY</span>':(d.completed?'<span class="badge bdone">COMPLETO</span>':'<span class="badge bsin">INACTIVO</span>'))+
-      '</div>'+
-      '<div style="font-size:9px;color:var(--text3);font-family:var(--mono);margin-bottom:5px">'+dsc.length+' escuelas · '+pct+'% completado</div>'+
-      '<div style="height:3px;background:#080808;border-radius:1px;overflow:hidden"><div style="height:100%;background:var(--green2);width:'+pct+'%"></div></div>'+
-      '</a>';
+  var days = getDays();
+  var sc = getSchools();
+  if (!days.length) {
+    document.getElementById('armContent').innerHTML = '<div class="empty"><div class="empty-ico">📆</div>Sin días creados</div>';
+    return;
+  }
+  var html = '';
+  days.forEach(function(d) {
+    var dsc = sc.filter(function(s) { return s.dayId === d.id; });
+    var ent = dsc.filter(function(s) { return s.status === 'entregado'; }).length;
+    var pct = dsc.length ? Math.round(ent / dsc.length * 100) : 0;
+    var isToday = d.active && !d.completed;
+    html += '<div class="sc-card" data-s="' + (isToday ? 'armando' : 'entregado') + '" style="margin-bottom:5px;cursor:default">';
+    html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">';
+    html += '<div class="sc-name">' + escHtml((d.dayName || '').toUpperCase()) + ' ' + escHtml(d.date || '') + '</div>';
+    html += isToday ? '<span class="badge barm">HOY ACTIVO</span>' : (d.completed ? '<span class="badge bdone">COMPLETO</span>' : '<span class="badge bsin">INACTIVO</span>');
+    html += '</div>';
+    html += '<div style="font-size:9px;color:var(--text3);font-family:var(--mono);margin-bottom:5px">' + dsc.length + ' escuelas · ' + pct + '% entregado</div>';
+    html += '<div style="height:3px;background:#080808;border-radius:1px;overflow:hidden"><div style="height:100%;background:var(--green2);width:' + pct + '%"></div></div>';
+    html += '</div>';
   });
-  document.getElementById('armContent').innerHTML=html;
+  document.getElementById('armContent').innerHTML = html;
 }
 
-/* ESCUELAS TAB */
-function renderEscuelas(){
-  var ms=getMasterSchools();
-  var html='<div style="font-size:9px;color:var(--text3);font-family:var(--mono);margin-bottom:6px">Escuelas registradas en el sistema</div>';
-  html+='<button class="btn btn-red btn-sm" onclick="openNewMasterSchool()" style="width:auto;margin-bottom:8px">+ Nueva escuela</button>';
-  if(!ms.length){document.getElementById('armContent').innerHTML=html+'<div class="empty"><div class="empty-ico">🏫</div>Sin escuelas registradas</div>';return;}
-  ms.forEach(function(s){
-    var tmpl=s.template||[],hasT=tmpl.filter(function(t){return t.qty>0;}).length>0;
-    html+='<div class="card" style="margin-bottom:5px;border-left-color:var(--blue2)"><div class="card-body" style="padding:9px 11px">'+
-      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">'+
-      '<div class="sc-name" style="font-size:12px">'+escHtml(s.name)+'</div>'+
-      '<div style="display:flex;gap:3px">'+
-      '<button class="btn btn-dark btn-xs" data-sid="'+escHtml(s.id)+'" onclick="editMasterSchool(this.dataset.sid)">✏</button>'+
-      '<button class="btn btn-outline btn-xs" style="color:#f87171;border-color:#4a0a0a" data-sid="'+escHtml(s.id)+'" onclick="delMasterSchool(this.dataset.sid)">🗑</button>'+
-      '</div></div>'+
-      (s.address?'<div style="font-size:9px;color:var(--text3);font-family:var(--mono)">📍 '+escHtml(s.address)+'</div>':'')+
-      (hasT?'<div style="font-size:8px;color:var(--text2);margin-top:3px;font-family:var(--mono)">📋 '+tmpl.filter(function(t){return t.qty>0;}).map(function(t){return t.name+' '+t.qty+t.unit;}).join(' · ')+'</div>':
-            '<div style="font-size:8px;color:var(--text3);margin-top:2px;font-family:var(--mono)">📋 Sin plantilla</div>')+
-      '</div></div>';
+/* ── ESCUELAS ── */
+function renderEscuelas() {
+  var ms = getMasterSchools();
+  var html = '<button class="btn btn-red btn-sm" onclick="openNewMasterSchool()" style="width:auto;margin-bottom:8px">+ Nueva escuela</button>';
+  if (!ms.length) { html += '<div class="empty"><div class="empty-ico">🏫</div>Sin escuelas registradas</div>'; }
+  ms.forEach(function(s) {
+    var tmpl = s.template || [];
+    var hasT = tmpl.filter(function(t) { return t.qty > 0; }).length > 0;
+    html += '<div class="card" style="margin-bottom:5px;border-left-color:var(--blue2)">';
+    html += '<div class="card-body" style="padding:9px 11px">';
+    html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">';
+    html += '<div class="sc-name" style="font-size:12px">' + escHtml(s.name) + '</div>';
+    html += '<div style="display:flex;gap:3px">';
+    html += '<button class="btn btn-dark btn-xs" data-sid="' + escHtml(s.id) + '" onclick="editMasterSchool(this.dataset.sid)">✏</button>';
+    html += '<button class="btn btn-outline btn-xs" style="color:#f87171;border-color:#4a0a0a" data-sid="' + escHtml(s.id) + '" onclick="delMasterSchool(this.dataset.sid)">🗑</button>';
+    html += '</div></div>';
+    if (s.address) html += '<div style="font-size:9px;color:var(--text3);font-family:var(--mono)">📍 ' + escHtml(s.address) + '</div>';
+    if (hasT) html += '<div style="font-size:8px;color:var(--text2);margin-top:3px;font-family:var(--mono)">📋 ' + tmpl.filter(function(t) { return t.qty > 0; }).map(function(t) { return t.name + ' ' + t.qty + t.unit; }).join(' · ') + '</div>';
+    else html += '<div style="font-size:8px;color:var(--text3);margin-top:2px;font-family:var(--mono)">📋 Sin plantilla guardada</div>';
+    html += '</div></div>';
   });
-  document.getElementById('armContent').innerHTML=html;
+  document.getElementById('armContent').innerHTML = html;
 }
 
-/* POR PRODUCTO TAB */
-function renderProducto(){
-  var sc=getTodSc();
-  var prods={};
-  sc.forEach(function(s){
-    (s.products||[]).forEach(function(p){
-      if(parseFloat(p.qty)<=0)return;
-      if(!prods[p.name])prods[p.name]={name:p.name,unit:p.unit,entries:[]};
-      prods[p.name].entries.push({sid:s.id,sname:s.name,prod:p});
+/* ── PRODUCTO ── */
+function renderProducto() {
+  var sc = getTodSc();
+  var q = document.getElementById('srch').value.toLowerCase();
+  var prods = {};
+  sc.forEach(function(s) {
+    (s.products || []).forEach(function(p) {
+      if (parseFloat(p.qty) <= 0) return;
+      if (q && !p.name.toLowerCase().includes(q) && !s.name.toLowerCase().includes(q)) return;
+      if (!prods[p.name]) prods[p.name] = { name: p.name, unit: p.unit, entries: [] };
+      prods[p.name].entries.push({ sid: s.id, sname: s.name, prod: p });
     });
   });
-  var names=Object.keys(prods).sort();
-  var html='';
-  if(prodFilter){html+='<div style="display:flex;gap:5px;align-items:center;margin-bottom:5px"><div style="flex:1;font-size:9px;color:var(--text3);font-family:var(--mono)">Filtrando: <b style="color:var(--text)">'+escHtml(prodFilter)+'</b></div><button class="btn btn-xs btn-outline" onclick="prodFilter='';render()">× Limpiar</button></div>';}
-  html+='<div class="filters" style="margin-bottom:6px">';
-  names.forEach(function(nm){html+='<button class="ftab'+(prodFilter===nm?' on':'')+'" data-nm="'+escHtml(nm)+'" onclick="prodFilter=this.dataset.nm;renderProducto()">'+escHtml(nm)+'</button>';});
-  html+='</div>';
-  var show=prodFilter?[prodFilter]:names;
-  if(!show.length){document.getElementById('armContent').innerHTML=html+'<div class="empty"><div class="empty-ico">📦</div>Sin productos para hoy</div>';return;}
-  show.forEach(function(nm){
-    var g=prods[nm];if(!g)return;
-    var tot=g.entries.reduce(function(s,e){return s+parseFloat(e.prod.qty||0);},0);
-    var dn=g.entries.filter(function(e){return e.prod.assembled;}).length;
-    var allDone=dn===g.entries.length;
-    html+='<div class="card" style="margin-bottom:6px;border-left-color:'+(allDone?'var(--green2)':'var(--yellow2)')+'">'+
-      '<div class="card-hdr">'+escHtml(nm)+' — TOTAL '+tot+' '+escHtml(g.unit)+'<span style="color:'+(allDone?'var(--green3)':'var(--yellow2)')+'">'+dn+'/'+g.entries.length+' ✔</span></div>';
-    g.entries.forEach(function(e){
-      html+='<div class="pr'+(e.prod.assembled?' done':'')+'" data-sid="'+e.sid+'" data-pnm="'+escHtml(nm)+'" onclick="armQuickToggle(this.dataset.sid,this.dataset.pnm)">'+
-        '<div class="pchk'+(e.prod.assembled?' on':'')+'">'+( e.prod.assembled?'✔':'')+' </div>'+
-        '<div class="pnm">'+escHtml(e.sname)+'</div>'+
-        '<div class="pqt">'+e.prod.qty+' '+escHtml(e.prod.unit)+'</div></div>';
-    });
-    html+='</div>';
+  var names = Object.keys(prods).sort();
+  // Product filter tabs
+  var tabHtml = '<button class="ftab' + (prodFil === '' ? ' on' : '') + '" data-p="" onclick="setProdFil(this.dataset.p)">Todos</button>';
+  names.forEach(function(nm) {
+    tabHtml += '<button class="ftab' + (prodFil === nm ? ' on' : '') + '" data-p="' + escHtml(nm) + '" onclick="setProdFil(this.dataset.p)">' + escHtml(nm) + '</button>';
   });
-  document.getElementById('armContent').innerHTML=html;
+  document.getElementById('prodFilterTabs').innerHTML = tabHtml;
+
+  var show = prodFil ? (prods[prodFil] ? [prodFil] : []) : names;
+  var html = '';
+  if (!show.length) {
+    html = '<div class="empty"><div class="empty-ico">📦</div>Sin productos para hoy</div>';
+  }
+  show.forEach(function(nm) {
+    var g = prods[nm]; if (!g) return;
+    var tot = g.entries.reduce(function(acc, e) { return acc + parseFloat(e.prod.qty || 0); }, 0);
+    var dn = g.entries.filter(function(e) { return e.prod.assembled; }).length;
+    var allDone = dn === g.entries.length;
+    html += '<div class="card" style="margin-bottom:6px;border-left-color:' + (allDone ? 'var(--green2)' : 'var(--yellow2)') + '">';
+    html += '<div class="card-hdr">' + escHtml(nm) + ' — TOTAL ' + tot + ' ' + escHtml(g.unit) + '<span style="color:' + (allDone ? 'var(--green3)' : 'var(--yellow2)') + '">' + dn + '/' + g.entries.length + ' ✔</span></div>';
+    g.entries.forEach(function(e) {
+      html += '<div class="pr' + (e.prod.assembled ? ' done' : '') + '" data-sid="' + e.sid + '" data-pnm="' + escHtml(nm) + '" onclick="armQuickToggle(this.dataset.sid, this.dataset.pnm)">';
+      html += '<div class="pchk' + (e.prod.assembled ? ' on' : '') + '">' + (e.prod.assembled ? '✔' : '') + '</div>';
+      html += '<div class="pnm">' + escHtml(e.sname) + '</div>';
+      html += '<div class="pqt">' + e.prod.qty + ' ' + escHtml(e.prod.unit) + '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+  });
+  document.getElementById('armContent').innerHTML = html;
+}
+function setProdFil(p) { prodFil = p; renderProducto(); }
+function armQuickToggle(sid, pname) {
+  var s = getSchool(sid); if (!s) return;
+  var p = s.products.find(function(x) { return x.name === pname; }); if (!p) return;
+  p.assembled = !p.assembled; p.assembledBy = p.assembled ? user.name : null;
+  if (p.assembled && s.status === 'sin-armar') { s.status = 'armando'; s.assemblyStart = s.assemblyStart || fmtTime(); }
+  var active = s.products.filter(function(x) { return parseFloat(x.qty) > 0; });
+  if (active.length && active.every(function(x) { return x.assembled; }) && s.status === 'armando') {
+    s.status = 'armado'; s.assemblyEnd = fmtTime(); saveTemplate(s.name, s.products);
+  }
+  saveSchool(s); if (p.assembled) logActivity('marcó ' + pname + ' armado', s.name, 'g');
+  render(); if (navigator.vibrate) navigator.vibrate(30);
 }
 
-function armQuickToggle(sid,pname){
-  var s=getSchool(sid);if(!s)return;
-  var p=s.products.find(function(x){return x.name===pname;});if(!p)return;
-  p.assembled=!p.assembled;p.assembledBy=p.assembled?user.name:null;
-  if(p.assembled&&s.status==='sin-armar'){s.status='armando';s.assemblyStart=s.assemblyStart||fmtTime();}
-  var active=s.products.filter(function(x){return parseFloat(x.qty)>0;});
-  if(active.length&&active.every(function(x){return x.assembled;})&&s.status==='armando'){s.status='armado';s.assemblyEnd=fmtTime();saveTemplate(s.name,s.products);}
-  saveSchool(s);if(p.assembled)logActivity('marcó '+pname+' armado',s.name,'g');
-  render();if(navigator.vibrate)navigator.vibrate(30);
+/* ── FAB ── */
+function fabAction() {
+  if (curTab === 'dias') openNewDayModal(); else openNewSchoolModal();
 }
 
-/* OPEN MODALS */
-function armFabAction(){
-  if(curTab==='dias'){openNewDayModal();}
-  else{openNewSchoolModal();}
-}
-function openNewDayModal(){
-  var days=getDays(),now=new Date();
-  document.getElementById('ndDate').value=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
-  document.getElementById('ndCopy').innerHTML='<option value="">Ninguno</option>'+days.map(function(d){return '<option value="'+d.id+'">'+escHtml(d.dayName||'')+' '+escHtml(d.date||'')+'</option>';}).join('');
+/* ── NEW DAY ── */
+function openNewDayModal() {
+  var days = getDays(), now = new Date();
+  document.getElementById('ndDate').value = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+  document.getElementById('ndCopy').innerHTML = '<option value="">Ninguno</option>' + days.map(function(d) { return '<option value="' + d.id + '">' + escHtml(d.dayName || '') + ' ' + escHtml(d.date || '') + '</option>'; }).join('');
   openModal('mNewDay');
 }
-function createDay(){
-  var dv=document.getElementById('ndDate').value;if(!dv){showToast('Seleccioná una fecha','err');return;}
-  var d=new Date(dv+'T00:00:00');
-  var fmt=String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
-  var nd={id:'day_'+Date.now(),date:fmt,dayName:DN[d.getDay()],active:true,completed:false};
-  var cid=document.getElementById('ndCopy').value;
-  var days=getDays();
-  // Deactivate previous active day
-  days.forEach(function(x){x.active=false;if(db)fsSet(COL.days,x.id,x);});
-  days.unshift(nd);setData('days',days);if(db)fsSet(COL.days,nd.id,nd);
-  if(cid){
-    var src=getSchools().filter(function(s){return s.dayId===cid;}),all=getSchools();
-    src.forEach(function(s){
-      var ns=JSON.parse(JSON.stringify(s));
-      ns.id='sc_'+Date.now()+'_'+Math.random().toString(36).slice(2);ns.dayId=nd.id;
-      ns.status='sin-armar';ns.products=buildProductsForSchool(ns.name);
-      ns.arrivalTime=null;ns.departureTime=null;ns.assemblyStart=null;ns.assemblyEnd=null;
-      ns.checklist={revisado:false,cargado:false};all.push(ns);if(db)fsSet(COL.schools,ns.id,ns);
+function createDay() {
+  var dv = document.getElementById('ndDate').value; if (!dv) { showToast('Seleccioná una fecha', 'err'); return; }
+  var d = new Date(dv + 'T00:00:00');
+  var fmt = String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear();
+  var nd = { id: 'day_' + Date.now(), date: fmt, dayName: DN[d.getDay()], active: true, completed: false };
+  var cid = document.getElementById('ndCopy').value;
+  var days = getDays();
+  days.forEach(function(x) { x.active = false; if (db) fsSet(COL.days, x.id, x); });
+  days.unshift(nd); setData('days', days); if (db) fsSet(COL.days, nd.id, nd);
+  if (cid) {
+    var src = getSchools().filter(function(s) { return s.dayId === cid; });
+    var all = getSchools();
+    src.forEach(function(s) {
+      var ns = JSON.parse(JSON.stringify(s));
+      ns.id = 'sc_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+      ns.dayId = nd.id; ns.status = 'sin-armar';
+      ns.products = buildProductsForSchool(ns.name);
+      ns.arrivalTime = null; ns.departureTime = null; ns.assemblyStart = null; ns.assemblyEnd = null;
+      ns.checklist = { revisado: false, cargado: false }; ns.comments = [];
+      all.push(ns); if (db) fsSet(COL.schools, ns.id, ns);
     });
-    setData('schools',all);
+    setData('schools', all);
   }
-  closeModal('mNewDay');showToast('Día creado: '+fmt,'ok');render();
+  closeModal('mNewDay'); showToast('Día creado: ' + fmt, 'ok'); armTab('hoy');
 }
-function openNewSchoolModal(){
-  var day=getTodayDay();if(!day){showToast('No hay día activo','err');return;}
-  var ms=getMasterSchools();
-  var existing=getTodSc().map(function(s){return s.name;});
-  document.getElementById('armSchoolSel').innerHTML='<option value="">— Seleccionar escuela —</option>'+
-    ms.filter(function(m){return m.active!==false;}).map(function(m){return '<option value="'+escHtml(m.name)+'">'+escHtml(m.name)+'</option>';}).join('');
-  document.getElementById('armSchoolName').value='';
-  document.getElementById('armProdWrap').style.display='none';
-  document.getElementById('armSchoolSel').onchange=function(){
-    var nm=this.value||document.getElementById('armSchoolName').value;
-    if(!nm){document.getElementById('armProdWrap').style.display='none';return;}
-    showProdInputs(nm);
-  };
+
+/* ── NEW SCHOOL IN DAY ── */
+function openNewSchoolModal() {
+  var day = getTodayDay(); if (!day) { showToast('No hay día activo — creá un día primero', 'err'); return; }
+  var ms = getMasterSchools();
+  var existing = getTodSc().map(function(s) { return s.name; });
+  document.getElementById('armSchoolSel').innerHTML = '<option value="">— Seleccionar escuela registrada —</option>' +
+    ms.filter(function(m) { return m.active !== false; }).map(function(m) { return '<option value="' + escHtml(m.name) + '">' + escHtml(m.name) + '</option>'; }).join('');
+  document.getElementById('armSchoolName').value = '';
+  document.getElementById('armProdWrap').style.display = 'none';
   openModal('mNewSchool');
 }
-function showProdInputs(name){
-  var prods=getMasterProds().filter(function(p){return p.active!==false;});
-  var tmpl=getTemplate(name);
-  var html='';
-  prods.forEach(function(p,i){
-    var t=tmpl&&tmpl.find(function(x){return x.name===p.name;});
-    var qty=t?t.qty:0;
-    html+='<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border)">'+
-      '<div style="flex:1;font-size:12px">'+escHtml(p.name)+'</div>'+
-      '<input type="number" min="0" step="0.5" value="'+qty+'" placeholder="0" style="width:52px;background:#050505;border:1px solid var(--border2);border-radius:1px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:700;padding:3px 5px;text-align:right;outline:none" id="ap_'+i+'">'+
-      '<span style="font-size:9px;color:var(--text3);font-family:var(--mono);min-width:28px">'+escHtml(p.unit)+'</span>'+
-      '</div>';
+function onSchoolSelChange() {
+  var nm = document.getElementById('armSchoolSel').value;
+  if (nm) { document.getElementById('armSchoolName').value = ''; showProdInputs(nm); }
+  else document.getElementById('armProdWrap').style.display = 'none';
+}
+function onSchoolNameInput() {
+  var nm = document.getElementById('armSchoolName').value.trim();
+  if (nm) { document.getElementById('armSchoolSel').value = ''; showProdInputs(nm); }
+  else document.getElementById('armProdWrap').style.display = 'none';
+}
+function showProdInputs(name) {
+  var prods = getMasterProds().filter(function(p) { return p.active !== false; });
+  var tmpl = getTemplate(name);
+  var html = '';
+  prods.forEach(function(p, i) {
+    var t = tmpl && tmpl.find(function(x) { return x.name === p.name; });
+    var qty = t ? t.qty : 0;
+    html += '<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border)">';
+    html += '<div style="flex:1;font-size:12px">' + escHtml(p.name) + '</div>';
+    html += '<input type="number" min="0" step="0.5" value="' + qty + '" placeholder="0" id="ap_' + i + '" style="width:52px;background:#050505;border:1px solid var(--border2);border-radius:1px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:700;padding:3px 5px;text-align:right;outline:none">';
+    html += '<span style="font-size:9px;color:var(--text3);font-family:var(--mono);min-width:28px">' + escHtml(p.unit) + '</span>';
+    html += '</div>';
   });
-  document.getElementById('armProdList').innerHTML=html;
-  document.getElementById('armProdWrap').style.display='block';
+  document.getElementById('armProdList').innerHTML = html;
+  document.getElementById('armProdWrap').style.display = 'block';
 }
-function createSchoolInDay(){
-  var day=getTodayDay();if(!day){showToast('No hay día activo','err');return;}
-  var nm=(document.getElementById('armSchoolSel').value||document.getElementById('armSchoolName').value).trim();
-  if(!nm){showToast('Ingresá o seleccioná una escuela','err');return;}
-  var prods=getMasterProds().filter(function(p){return p.active!==false;});
-  var pInputs=document.getElementById('armProdWrap').style.display!=='none';
+function createSchoolInDay() {
+  var day = getTodayDay(); if (!day) { showToast('No hay día activo', 'err'); return; }
+  var nm = (document.getElementById('armSchoolSel').value || document.getElementById('armSchoolName').value).trim();
+  if (!nm) { showToast('Seleccioná o escribí una escuela', 'err'); return; }
+  var prods = getMasterProds().filter(function(p) { return p.active !== false; });
+  var pWrap = document.getElementById('armProdWrap');
   var ps;
-  if(pInputs){
-    ps=prods.map(function(p,i){
-      var el=document.getElementById('ap_'+i);
-      var qty=el?parseFloat(el.value)||0:0;
-      return {id:'p'+Date.now()+i,name:p.name,qty:qty,unit:p.unit,assembled:false,assembledBy:null};
+  if (pWrap.style.display !== 'none') {
+    ps = prods.map(function(p, i) {
+      var el = document.getElementById('ap_' + i);
+      return { id: 'p' + Date.now() + i, name: p.name, qty: el ? parseFloat(el.value) || 0 : 0, unit: p.unit, assembled: false, assembledBy: null };
     });
-  }else{ps=buildProductsForSchool(nm);}
-  var ms=getMasterSchools(),msc=ms.find(function(s){return s.name===nm;});
-  var s={id:'sc_'+Date.now(),dayId:day.id,name:nm,status:'sin-armar',order:getTodSc().length,
-    products:ps,comments:[],deliveryNote:'',arrivalTime:null,departureTime:null,
-    assemblyStart:null,assemblyEnd:null,assignedTo:null,
-    ficha:msc?{direccion:msc.address||'',telefono:msc.phone||'',contacto:'',horario:'',nota:msc.notes||''}:{direccion:'',telefono:'',contacto:'',horario:'',nota:''},
-    checklist:{revisado:false,cargado:false}};
-  var all=getSchools();all.push(s);setData('schools',all);if(db)fsSet(COL.schools,s.id,s);
-  // Save as template
-  if(ps.filter(function(p){return parseFloat(p.qty)>0;}).length>0) saveTemplate(nm,ps);
-  closeModal('mNewSchool');showToast(nm+' agregada','ok');render();
+  } else { ps = buildProductsForSchool(nm); }
+  var ms = getMasterSchools(), msc = ms.find(function(s) { return s.name === nm; });
+  var s = {
+    id: 'sc_' + Date.now(), dayId: day.id, name: nm, status: 'sin-armar', order: getTodSc().length,
+    products: ps, comments: [], deliveryNote: '', arrivalTime: null, departureTime: null,
+    assemblyStart: null, assemblyEnd: null, assignedTo: null,
+    ficha: msc ? { direccion: msc.address || '', telefono: msc.phone || '', contacto: '', horario: '', nota: msc.notes || '' } : { direccion: '', telefono: '', contacto: '', horario: '', nota: '' },
+    checklist: { revisado: false, cargado: false }
+  };
+  var all = getSchools(); all.push(s); setData('schools', all); if (db) fsSet(COL.schools, s.id, s);
+  if (ps.filter(function(p) { return parseFloat(p.qty) > 0; }).length > 0) saveTemplate(nm, ps);
+  closeModal('mNewSchool'); showToast(nm + ' agregada al día', 'ok'); render();
 }
-function openEditSchool(sid){
-  var s=getSchool(sid);if(!s)return;
-  document.getElementById('editScId').value=sid;
-  document.getElementById('editScName').value=s.name||'';
-  document.getElementById('editScNote').value=(s.ficha&&s.ficha.nota)||'';
-  document.getElementById('editScObs').value=(s.comments&&s.comments[0])||'';
-  openModal('mEditSchool');
+
+/* ── EDIT SCHOOL IN DAY ── */
+function openEditSc(sid) {
+  var s = getSchool(sid); if (!s) return;
+  document.getElementById('editScId').value = sid;
+  document.getElementById('mEditScTi').textContent = 'Editar — ' + s.name;
+  document.getElementById('editScNote').value = (s.ficha && s.ficha.nota) || '';
+  document.getElementById('editScObs').value = (s.comments && s.comments[0]) || '';
+  var users = getUsers();
+  document.getElementById('editScAssign').innerHTML = '<option value="">— Sin asignar —</option>' +
+    users.map(function(u) { return '<option value="' + escHtml(u.name) + '"' + (s.assignedTo === u.name ? ' selected' : '') + '>' + escHtml(u.name) + '</option>'; }).join('');
+  openModal('mEditSc');
 }
-function saveEditSchool(){
-  var sid=document.getElementById('editScId').value;var s=getSchool(sid);if(!s)return;
-  s.name=document.getElementById('editScName').value.trim()||s.name;
-  if(!s.ficha)s.ficha={};s.ficha.nota=document.getElementById('editScNote').value.trim();
-  var obs=document.getElementById('editScObs').value.trim();
-  s.comments=obs?[obs]:[];
-  saveSchool(s);closeModal('mEditSchool');showToast('Guardado ✓','ok');render();
+function saveEditSc() {
+  var sid = document.getElementById('editScId').value;
+  var s = getSchool(sid); if (!s) return;
+  if (!s.ficha) s.ficha = {};
+  s.ficha.nota = document.getElementById('editScNote').value.trim();
+  var obs = document.getElementById('editScObs').value.trim();
+  s.comments = obs ? [obs] : [];
+  s.assignedTo = document.getElementById('editScAssign').value || null;
+  saveSchool(s); closeModal('mEditSc'); showToast('Guardado ✓', 'ok'); render();
 }
-/* MASTER SCHOOLS CRUD */
-var editingMSId='';
-function openNewMasterSchool(){
-  editingMSId='';
-  openMSModal('Nueva escuela','','','','');
+function deleteSchoolFromDay() {
+  var sid = document.getElementById('editScId').value;
+  if (!confirm('¿Quitar esta escuela del día?')) return;
+  deleteSchool(sid); closeModal('mEditSc'); showToast('Escuela quitada', 'ok'); render();
 }
-function editMasterSchool(id){
-  var s=getMasterSchools().find(function(x){return x.id===id;});if(!s)return;
-  editingMSId=id;
-  openMSModal('Editar: '+s.name,s.name,s.address||'',s.phone||'',s.notes||'');
-}
-function openMSModal(title,name,addr,phone,notes){
-  if(!document.getElementById('mMS')){
-    var m=document.createElement('div');
-    m.className='mbg';m.id='mMS';m.onclick=function(e){if(e.target===m)closeModal('mMS');};
-    m.innerHTML='<div class="mdl"><div class="mhdl"></div><div class="mtitle" id="mMSTitle">Escuela</div>'+
-      '<div style="display:flex;flex-direction:column;gap:10px">'+
-      '<div class="igroup"><label class="ilbl">Nombre</label><input class="inp" id="mMSNm" placeholder="Ej: PP26"></div>'+
-      '<div class="igroup"><label class="ilbl">Dirección</label><input class="inp" id="mMSAddr" placeholder="Av. Mitre 1234"></div>'+
-      '<div class="igroup"><label class="ilbl">Teléfono</label><input class="inp" id="mMSTel" placeholder="2364-XXXXXX"></div>'+
-      '<div class="igroup"><label class="ilbl">Notas permanentes</label><textarea class="inp" id="mMSNotes" rows="2" placeholder="Observaciones fijas..."></textarea></div>'+
-      '</div><div class="mact"><button class="btn btn-red" onclick="saveMasterSchool()">Guardar</button><button class="btn btn-dark" onclick="closeModal('mMS')">Cancelar</button></div></div>';
-    document.body.appendChild(m);
-  }
-  document.getElementById('mMSTitle').textContent=title;
-  document.getElementById('mMSNm').value=name;document.getElementById('mMSAddr').value=addr;
-  document.getElementById('mMSTel').value=phone;document.getElementById('mMSNotes').value=notes;
+
+/* ── MASTER SCHOOLS ── */
+function openNewMasterSchool() {
+  document.getElementById('mMSId').value = '';
+  document.getElementById('mMSTi').textContent = 'Nueva escuela';
+  document.getElementById('mMSNm').value = '';
+  document.getElementById('mMSAddr').value = '';
+  document.getElementById('mMSTel').value = '';
+  document.getElementById('mMSNotes').value = '';
   openModal('mMS');
 }
-function saveMasterSchool(){
-  var nm=document.getElementById('mMSNm').value.trim();if(!nm){showToast('Ingresá un nombre','err');return;}
-  var ms=getMasterSchools();
-  var data={name:nm,address:document.getElementById('mMSAddr').value.trim(),phone:document.getElementById('mMSTel').value.trim(),notes:document.getElementById('mMSNotes').value.trim()};
-  if(editingMSId){
-    var i=ms.findIndex(function(x){return x.id===editingMSId;});if(i>=0){Object.assign(ms[i],data);if(db)fsSet(COL.masterSchools,editingMSId,ms[i]);}
-  }else{var ns=Object.assign({id:'ms'+Date.now(),active:true,template:[]},data);ms.push(ns);if(db)fsSet(COL.masterSchools,ns.id,ns);}
-  setData('masterSchools',ms);closeModal('mMS');showToast('Guardado ✓','ok');render();
+function editMasterSchool(id) {
+  var s = getMasterSchools().find(function(x) { return x.id === id; }); if (!s) return;
+  document.getElementById('mMSId').value = id;
+  document.getElementById('mMSTi').textContent = 'Editar: ' + s.name;
+  document.getElementById('mMSNm').value = s.name || '';
+  document.getElementById('mMSAddr').value = s.address || '';
+  document.getElementById('mMSTel').value = s.phone || '';
+  document.getElementById('mMSNotes').value = s.notes || '';
+  openModal('mMS');
 }
-function delMasterSchool(id){
-  if(!confirm('¿Eliminar esta escuela del registro?'))return;
-  setData('masterSchools',getMasterSchools().filter(function(s){return s.id!==id;}));
-  if(db)fsDel(COL.masterSchools,id);render();showToast('Eliminada','ok');
+function saveMasterSchool() {
+  var nm = document.getElementById('mMSNm').value.trim();
+  if (!nm) { showToast('Ingresá un nombre', 'err'); return; }
+  var sid = document.getElementById('mMSId').value;
+  var ms = getMasterSchools();
+  var data = { name: nm, address: document.getElementById('mMSAddr').value.trim(), phone: document.getElementById('mMSTel').value.trim(), notes: document.getElementById('mMSNotes').value.trim() };
+  if (sid) {
+    var i = ms.findIndex(function(x) { return x.id === sid; });
+    if (i >= 0) { Object.assign(ms[i], data); if (db) fsSet(COL.masterSchools, sid, ms[i]); }
+  } else {
+    var ns = Object.assign({ id: 'ms' + Date.now(), active: true, template: [] }, data);
+    ms.push(ns); if (db) fsSet(COL.masterSchools, ns.id, ns);
+  }
+  setData('masterSchools', ms); closeModal('mMS'); showToast('Guardado ✓', 'ok'); render();
 }
-initLiveData({onSchools:render,onDays:render});
+function delMasterSchool(id) {
+  if (!confirm('¿Eliminar esta escuela del registro?')) return;
+  setData('masterSchools', getMasterSchools().filter(function(s) { return s.id !== id; }));
+  if (db) fsDel(COL.masterSchools, id);
+  showToast('Eliminada', 'ok'); render();
+}
+
+initLiveData({ onSchools: render, onDays: render });
 render();
 </script>
 </body>
